@@ -1,0 +1,29 @@
+{
+  "homepage": "http://enjeck.github.io/math",
+  "name": "num2math",
+  "version": "1.0.0",
+  "description": "Generate a complicated math expression that results in a number",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html --public-url ./",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "jquery": "3.6.0",
+    "parcel-bundler": "^1.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "gh-pages": "^3.2.3"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  },
+  "keywords": [
+    "math",
+    "latex",
+    "math equations"
+  ]
+}
