@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <title>num2math</title>
+    <link href="src/styles.css" rel="stylesheet" type="text/css" />  
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+    ></script>
+    <script src="src/script.js">
+      
+    </script>
+  </head>
+
+  <body>
+    <div class="menu">
+      <a href="https://github.com/enjeck/num2math"> GitHub</a>
+    </div>
+    <div id="frame">
+      <div id="mobile-notice">
+        <h3>Mobile Notice</h3>
+        <p> You appear to be on a device with a narrow screen width 
+          (i.e you are probably on a mobile device). 
+          Due to the nature of mathematics on this site, it best views
+          in landscape mode. On narrow screens, some math expressions may 
+          run off the side of the screen (you should be able to scroll to see them)
+        </p>
+      </div>
+      <div class="intro">
+        <h1>num2math</h1>
+        <h3>Generate a complicated math expression that results in a number</h3>
+      </div>
+      <label for="input"> Enter a positive number less than 1000</label>
+      <br />
+      <input id="input" type="number" />
+      <br />
+      <div class="left">
+        <input type="checkbox" id="display" checked />
+        <label for="display">Display style</label>
+      </div>
+      <div class="right">
+        <input
+          type="button"
+          value="Generate"
+          id="render"
+        />
+      </div>
+      <br clear="all" />
+      <div id="output"></div>
+    </div>
+
+  </body>
+</html>
