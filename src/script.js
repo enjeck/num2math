@@ -317,7 +317,7 @@ $(document).ready(function() {
           // Generate the smallest possible breakdown in exponent
           // Ideal for large numbers > 50
           function minExp(n) {
-            let oldDiff, newDiff, oldExp, newExp, exp;
+            let oldDiff, newDiff,exp, exponent;
             let valObj = {};
     
             let logValue = Math.log(n) / Math.log(3);
