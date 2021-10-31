@@ -1,5 +1,5 @@
 {
-  "homepage": "http://enjeck.github.io/math",
+  "homepage": "http://enjeck.github.io/num2math",
   "name": "num2math",
   "version": "1.0.0",
   "description": "Generate a complicated math expression that results in a number",
