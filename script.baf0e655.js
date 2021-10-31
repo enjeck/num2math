@@ -11545,7 +11545,7 @@ $(document).ready(function () {
 
 
       function minExp(n) {
-        var oldDiff, newDiff, oldExp, newExp, exp;
+        var oldDiff, newDiff, exp, exponent;
         var valObj = {};
         var logValue = Math.log(n) / Math.log(3);
         var floorLog = Math.floor(logValue);
@@ -11703,7 +11703,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38273" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46749" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
