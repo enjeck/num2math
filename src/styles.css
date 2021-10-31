@@ -63,8 +63,24 @@
 	float: right;
   }
   #mobile-notice {
+	  padding: 20px;
+	  margin: 10px;
+	  margin-bottom: 50px;
+	  border: 2px solid red;
 	  display: none;
+	  position: relative;
   }
+  .close {
+	  padding: 10px 20px;
+	  font-weight: bold;
+	  font-size: 30px;
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	  background: red;
+	  cursor: pointer;
+  }
+
 
   @media(max-width:550px){
 	#mobile-notice {

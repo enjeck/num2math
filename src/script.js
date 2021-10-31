@@ -2,10 +2,11 @@ import jQuery from "jquery";
 const $ = jQuery.noConflict();
 
 $(document).ready(function() {
-    $('#render').on("click", convert)
-    $('#display').on("change", convert)
-
-
+    $('#render').on("click", convert);
+    $('#display').on("change", convert);
+    $('.close ').click(function() {
+        $('#mobile-notice').hide();
+    })
     function convert() {
         // helper functions
         function isOdd(n) {
