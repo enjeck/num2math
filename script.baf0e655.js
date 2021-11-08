@@ -11244,6 +11244,7 @@ $(document).ready(function () {
   form.addEventListener("submit", handleForm); //$('#render').on("click", convert);
 
   $('#display').on("change", convert);
+  $('#render').on("click touchstart", convert);
   $('.close ').click(function () {
     $('#mobile-notice').hide();
   });
@@ -11636,13 +11637,13 @@ $(document).ready(function () {
       }
     }
 
-    input = decompose(number); //  Disable the display and render buttons until MathJax is done
+    var input = decompose(number); //  Disable the display and render buttons until MathJax is done
 
     var display = document.getElementById("display");
     var button = document.getElementById("render");
     button.disabled = display.disabled = true; //  Clear the old output
 
-    output = document.getElementById("output");
+    var output = document.getElementById("output");
     output.innerHTML = ""; //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
     //  Get the conversion options (metrics and display settings)
     //  Convert the input to CommonHTML output and use a promise to wait for it to be ready
@@ -11695,7 +11696,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41287" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35041" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

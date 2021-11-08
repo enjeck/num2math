@@ -44,6 +44,7 @@
 	  background-color: brown;
 	  color: #fff;
 	  cursor: pointer;
+	  z-index: 99
   }
   #output {
 	font-size: 120%;
