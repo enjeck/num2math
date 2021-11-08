@@ -2,12 +2,30 @@ import jQuery from "jquery";
 const $ = jQuery.noConflict();
 
 $(document).ready(function() {
-    $('#render').on("click", convert);
+
+  var form = document.getElementById("form");
+  function handleForm(event) {
+    event.preventDefault();
+    convert();
+  }
+  form.addEventListener("submit", handleForm);
+  
+    //$('#render').on("click", convert);
     $('#display').on("change", convert);
     $('.close ').click(function() {
         $('#mobile-notice').hide();
     })
+
     function convert() {
+
+      //  Get the TeX input
+      var number = document.getElementById("input").value;
+    
+      // Validating input
+      if (isNaN(number) || number === "" || number > 1000 || number < 0) {
+        return;
+      }
+
         // helper functions
         function isOdd(n) {
           if (n % 2 !== 0) {
@@ -15,27 +33,6 @@ $(document).ready(function() {
           } else {
             return false;
           }
-        }
-    
-        //  Get the TeX input
-        var number = document.getElementById("input").value;
-    
-        // Validating input
-        if (isNaN(number)) {
-          alert("Input must be a number");
-          return;
-        }
-        if (number === "") {
-          alert("Input must be a number");
-          return;
-        }
-        if (number > 1000) {
-          alert("Input number must be less than 1000");
-          return;
-        }
-        if (number < 0) {
-          alert("Input must be a positive number");
-          return;
         }
     
         /* Need to add another slash to latex strings to prevent slash escape */

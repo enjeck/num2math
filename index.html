@@ -36,9 +36,11 @@
         <h1>num2math</h1>
         <h3>Generate a complicated math expression that results in a number</h3>
       </div>
+
+      <form id=form>
       <label for="input"> Enter a positive number less than 1000</label>
       <br />
-      <input id="input" type="number" />
+      <input id="input" type="number" min="0" max="1000" required/>
       <br />
       <div class="left">
         <input type="checkbox" id="display" checked />
@@ -46,11 +48,12 @@
       </div>
       <div class="right">
         <input
-          type="button"
+          type="submit"
           value="Generate"
           id="render"
         />
       </div>
+    </form>
       <br clear="all" />
       <div id="output"></div>
     </div>
