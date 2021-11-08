@@ -12,6 +12,7 @@ $(document).ready(function() {
   
     //$('#render').on("click", convert);
     $('#display').on("change", convert);
+    $('#render').on("click touchstart", convert);
     $('.close ').click(function() {
         $('#mobile-notice').hide();
     })
@@ -414,7 +415,7 @@ $(document).ready(function() {
           }
         }
     
-        input = decompose(number);
+        let input = decompose(number);
     
         //  Disable the display and render buttons until MathJax is done
         var display = document.getElementById("display");
@@ -423,7 +424,7 @@ $(document).ready(function() {
     
         //  Clear the old output
     
-        output = document.getElementById("output");
+        let output = document.getElementById("output");
         output.innerHTML = "";
     
         //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
