@@ -45,7 +45,7 @@ $(document).ready(function() {
               return 2;
               break;
             case 6:
-              return 6;
+              return 3;
               break;
             case 24:
               return 4;
