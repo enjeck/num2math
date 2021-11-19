@@ -19,7 +19,7 @@ $(document).ready(function() {
 
     function convert() {
 
-      //  Get the TeX input
+      //  Get the number input
       var number = document.getElementById("input").value;
     
       // Validating input
