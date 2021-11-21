@@ -29,14 +29,9 @@ $(document).ready(function() {
 
         // helper functions
         function isOdd(n) {
-          if (n % 2 !== 0) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-    
-        /* Need to add another slash to latex strings to prevent slash escape */
+          return n % 2 !== 0
+         }
+  
     
         // Checking whether a number can be formed using factorial
         function isFactorial(n) {
@@ -60,6 +55,8 @@ $(document).ready(function() {
               return false;
           }
         }
+    /* Need to add another slash to latex strings to prevent slash escape */
+
     
         // Representing factorial values using the Gamma function or Pi Product notation
         function factorial(n) {
