@@ -66,7 +66,7 @@ $(document).ready(function() {
             return `{\\Gamma\\left( ${n + 1} \\right)}`;
           } else {
             // Using the pi product notation of factorial
-            return `{\\prod_{i=1}^{${n}} i}`;
+            return `{\\prod_{k=1}^{${n}} k}`;
           }
         }
     
@@ -223,9 +223,9 @@ $(document).ready(function() {
           } else {
             // Using the infinite geometric series rule: When −1<x<1, summation from i = 0 to infinity of r^i = 1/(1-r) or (r-1)/r.
             // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
-            return `\\sum\\limits_{i=0}^\\infty {\\left({${
+            return `\\sum\\limits_{k=0}^\\infty {\\left({${
               n - 1
-            } \\over {${n}}}\\right)^i}`;
+            } \\over {${n}}}\\right)^k}`;
           }
         }
     
