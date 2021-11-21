@@ -105,11 +105,11 @@ $(document).ready(function() {
         // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
         function limit_natural_log(n) {
           if (n === 0) {
-            return `\\lim_{x \\to \\infty}{ lnx \\over {x} }`;
+            return `\\lim_{x \\to \\infty}{ \\lnx \\over {x} }`;
           } else if (n === 1) {
-            return `\\lim_{x \\to 1}{ {ln(x)} \\over {x - 1} }`;
+            return `\\lim_{x \\to 1}{ {\\ln(x)} \\over {x - 1} }`;
           } else {
-            return `\\lim_{x \\to 0}{ {-ln(1 + ${n}(e^{-x} - 1))} \\over {x} }`;
+            return `\\lim_{x \\to 0}{ {-\\ln(1 + ${n}(e^{-x} - 1))} \\over {x} }`;
           }
         }
     
@@ -214,7 +214,7 @@ $(document).ready(function() {
             let r = Math.floor(Math.random() * 10) + 3;
             return `\\sum\\limits_{k=0}^{${
               r - 1
-            }} {sin{ {2 \\pi k} \\over {${r}} }}`;
+            }} {\\sin{ {2 \\pi k} \\over {${r}} }}`;
           }
     
           // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
@@ -243,14 +243,14 @@ $(document).ready(function() {
           if (n > 0) {
             let randomValue = Math.random() * 100;
             if (randomValue < 25) {
-              return `${randOption(n)} \\over {cos^2x + sin^2x}`;
+              return `${randOption(n)} \\over {\\cos^2x + \\sin^2x}`;
             } else if (randomValue < 50) {
-              return `(${randOption(n)} \\times cos^2x + sin^2x)`;
+              return `(${randOption(n)} \\times \\cos^2x + \\sin^2x)`;
             } else {
-              return `(${randOption(n + 1)} - cos^2x + sin^2x)`;
+              return `(${randOption(n + 1)} - \\cos^2x + \\sin^2x)`;
             }
           } else {
-            return `(${randOption(n + 1)} - cos^2x + sin^2x)`;
+            return `(${randOption(n + 1)} - \\cos^2x + \\sin^2x)`;
           }
         }
     
