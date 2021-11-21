@@ -66,7 +66,7 @@ $(document).ready(function() {
             return `{\\Gamma\\left( ${n + 1} \\right)}`;
           } else {
             // Using the pi product notation of factorial
-            return `{\\prod_{k=1}^{${n}} k}`;
+            return `\\left({\\prod_{k=1}^{${n}} k}\\right)`;
           }
         }
     
@@ -91,13 +91,13 @@ $(document).ready(function() {
           let rand = Math.floor(Math.random() * 10);
           let r = Math.floor(Math.random() * 10) + 1;
           if (rand < 5) {
-            var tex = `\\lim_{x \\to ${n - r}} {{x^2 - ${
+            var tex = `\\left({\\lim_{x \\to ${n - r}} {{x^2 - ${
               r ** 2
-            }} \\over {x - ${r}}}`.trim();
+            }} \\over {x - ${r}}}}\\right)`.trim();
           } else {
-            var tex = `\\lim_{x \\to ${n + r}} {{x^2 - ${
+            var tex = `\\left({\\lim_{x \\to ${n + r}} {{x^2 - ${
               r ** 2
-            }} \\over {x + ${r}}}`.trim();
+            }} \\over {x + ${r}}}}\\right)`.trim();
           }
           return tex;
         }
@@ -105,22 +105,22 @@ $(document).ready(function() {
         // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
         function limit_natural_log(n) {
           if (n === 0) {
-            return `\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }`;
+            return `\\left({\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}\\right)`;
           } else if (n === 1) {
-            return `\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }`;
+            return `\\left({\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }}\\right)`;
           } else {
-            return `\\lim_{x \\to 0}{ {-\\ln(1 + ${n}(e^{-x} - 1))} \\over {x} }`;
+            return `\\left({\\lim_{x \\to 0}{ {-\\ln(1 + ${n}(e^{-x} - 1))} \\over {x} }}\\right)`;
           }
         }
     
         // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
         function limit_exponential(n) {
           if (n === 0) {
-            return `\\lim_{x \\to \\infty}{xe^{-x}}`;
+            return `{\\lim_{x \\to \\infty}{xe^{-x}}}`;
           } else if (n === 1) {
-            return `\\lim_{x \\to 0}\\left({ {e^x - 1} \\over {x} }\\right)`;
+            return `\\left({\\lim_{x \\to 0}{ {e^x - 1} \\over {x} }}\\right)`;
           } else {
-            return `\\lim_{x \\to 0}\\left({ {e^{${n}x} - 1} \\over {x} }\\right)`;
+            return `\\left({\\lim_{x \\to 0}{ {e^{${n}x} - 1} \\over {x} }}\\right)`;
           }
         }
     
@@ -134,13 +134,13 @@ $(document).ready(function() {
           // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xa
           if (n === 0) {
             let r = Math.floor(Math.random() * 20);
-            return `\\lim_{x \\to \\infty}{${r}x^{-1}}`;
+            return `{\\lim_{x \\to \\infty}{${r}x^{-1}}}`;
           }
     
           // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xg(x)
           else if (n === 1) {
             let r = Math.floor(Math.random() * 20);
-            return `\\lim_{x \\to \\infty}{x^{1/x}}`;
+            return `{\\lim_{x \\to \\infty}{x^{1/x}}}`;
           } else {
             // Get random multiplier greater than 1
             let m = Math.floor(Math.random() * 5) + 1;
@@ -151,12 +151,12 @@ $(document).ready(function() {
             let denominator_length =
               Math.floor(Math.random() * highest_power - 1) + 1;
             let signs = ["-", "+"];
-            let numerator = `${m * n}x^${highest_power} `;
-            let denominator = `${m}x^${highest_power} `;
+            let numerator = `${m * n}x^{${highest_power}} `;
+            let denominator = `${m}x^{${highest_power}} `;
             // Generate a polynomial numerator with random length and coefficients
             for (let i = numerator_length; i > 0; i--) {
               let coef = Math.floor(Math.random() * 10) + 2;
-              let power = `^${i}`;
+              let power = `^{${i}}`;
               if (i < 2) {
                 // Do not show powers of value 1
                 power = "";
@@ -169,7 +169,7 @@ $(document).ready(function() {
             // Generate a polynomial denominator with random length and coefficients
             for (let i = denominator_length; i > 0; i--) {
               let coef = Math.floor(Math.random() * 10) + 2;
-              let power = `^${i}`;
+              let power = `^{${i}}`;
               if (i < 2) {
                 // Do not show powers of value 1
                 power = "";
@@ -182,7 +182,7 @@ $(document).ready(function() {
             // Surround everything with curly braces so that they're treated as one
             numerator = `{ ${numerator} }`;
             denominator = `{ ${denominator} }`;
-            return `\\lim_{x \\to \\infty}{${numerator} \\over {${denominator}}}`;
+            return `\\left({\\lim_{x \\to \\infty}{${numerator} \\over {${denominator}}}}\\right)`;
           }
         }
     
@@ -195,9 +195,9 @@ $(document).ready(function() {
           }
           // e.g −6e^(pi*i)=6
           if (n != 0) {
-            return `-${n}e^{\\pi i}`;
+            return `{-${n}e^{\\pi i}}`;
           } else {
-            return `e^{\\pi i} + 1`;
+            return `{(e^{\\pi i} + 1)}`;
           }
         }
     
@@ -212,20 +212,20 @@ $(document).ready(function() {
           // https://en.wikipedia.org/wiki/List_of_mathematical_series#Trigonometric_functions
           if (n === 0) {
             let r = Math.floor(Math.random() * 10) + 3;
-            return `\\sum\\limits_{k=0}^{${
+            return `{\\sum\\limits_{k=0}^{${
               r - 1
-            }} {\\sin \\left({ {2 \\pi k} \\over {${r}} } \\right)}`;
+            }} {\\sin \\left({ {2 \\pi k} \\over {${r}} } \\right)}}`;
           }
     
           // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
           else if (n === 1) {
-            return `\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }`;
+            return `{\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }}`;
           } else {
             // Using the infinite geometric series rule: When −1<x<1, summation from i = 0 to infinity of r^i = 1/(1-r) or (r-1)/r.
             // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
-            return `\\sum\\limits_{k=0}^\\infty {\\left({${
+            return `\\left({\\sum\\limits_{k=0}^\\infty {\\left({${
               n - 1
-            } \\over {${n}}}\\right)^k}`;
+            } \\over {${n}}}\\right)^{k}}}\\right)`;
           }
         }
     
@@ -243,9 +243,9 @@ $(document).ready(function() {
           if (n > 0) {
             let randomValue = Math.random() * 100;
             if (randomValue < 25) {
-              return `${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}`;
+              return `\\left({${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
             } else if (randomValue < 50) {
-              return `${randOption(n)} \\times (\\cos^2x + \\sin^2x)`;
+              return `\\left({${randOption(n)} \\times (\\cos^2x + \\sin^2x)}\\right)`;
             } else {
               return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
             }
@@ -287,7 +287,7 @@ $(document).ready(function() {
             let diff1 = Math.abs(n - exp1);
             let diff2 = Math.abs(n - exp2);
             if (diff1 < diff2) {
-              let power = `^${floorLog}`;
+              let power = `^{${floorLog}}`;
               if (floorLog < 2) {
                 power = "";
               }
@@ -296,7 +296,7 @@ $(document).ready(function() {
                 difference
               )}}`;
             } else {
-              let power = `^${ceilLog}`;
+              let power = `^{${ceilLog}}`;
               if (ceilLog < 2) {
                 power = "";
               }
@@ -324,11 +324,11 @@ $(document).ready(function() {
     
             if (diff1 < diff2) {
               oldDiff = diff1;
-              exp = [exp1, `\\left({${randomOption3(3)}}\\right)^${floorLog}`];
+              exp = [exp1, `\\left({${randomOption3(3)}}\\right)^{${floorLog}}`];
               valObj[oldDiff] = exp;
             } else {
               oldDiff = diff2;
-              exp = [exp2, `\\left({${randomOption3(3)}}\\right)^${ceilLog}`];
+              exp = [exp2, `\\left({${randomOption3(3)}}\\right)^{${ceilLog}}`];
               valObj[oldDiff] = exp;
             }
     
@@ -343,12 +343,12 @@ $(document).ready(function() {
               if (diff1 < diff2) {
                 exp = [
                   exp1,
-                  `\\left({${randomOption3(i)}}\\right)^${floorLog}`,
+                  `\\left({${randomOption3(i)}}\\right)^{${floorLog}}`,
                 ];
                 newDiff = diff1;
                 valObj[newDiff] = exp;
               } else {
-                exp = [exp2, `\\left({${randomOption3(i)}}\\right)^${ceilLog}`];
+                exp = [exp2, `\\left({${randomOption3(i)}}\\right)^{${ceilLog}}`];
                 newDiff = diff2;
                 valObj[newDiff] = exp;
               }
@@ -372,7 +372,7 @@ $(document).ready(function() {
           if (randomValue < 25 && n < 10) {
             // Represent (small) numbers using their square and square root
             let square = n ** 2;
-            return `\\sqrt{${randomOption1(square)}}`;
+            return `{\\sqrt{${randomOption1(square)}}}`;
           }
     
           // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
@@ -390,9 +390,9 @@ $(document).ready(function() {
             let b = Math.sqrt(b_square);
             let c_square = odd + 2 + b_square;
             let c = Math.sqrt(c_square);
-            return `\\sqrt{\\left({${randomOption1(
+            return `{\\sqrt{\\left({${randomOption1(
               c
-            )}}\\right)^2 - \\left({${randomOption2(b)}}\\right)^2}`;
+            )}}\\right)^2 - \\left({${randomOption2(b)}}\\right)^2}}`;
           }
     
           // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
