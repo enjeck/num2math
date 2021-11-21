@@ -10,9 +10,7 @@ $(document).ready(function() {
   }
   form.addEventListener("submit", handleForm);
   
-    //$('#render').on("click", convert);
     $('#display').on("change", convert);
-    $('#render').on("click touchstart", convert);
     $('.close ').click(function() {
         $('#mobile-notice').hide();
     })
@@ -55,9 +53,10 @@ $(document).ready(function() {
               return false;
           }
         }
+
     /* Need to add another slash to latex strings to prevent slash escape */
 
-    
+
         // Representing factorial values using the Gamma function or Pi Product notation
         function factorial(n) {
           let randomNumber = Math.random() * 10;
