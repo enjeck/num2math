@@ -11258,7 +11258,7 @@ $(document).ready(function () {
 
     function isOdd(n) {
       return n % 2 !== 0;
-    } // Checking whether a number can be formed using factorial
+    } // Checking if a number can be formed using factorial
 
 
     function isFactorial(n) {
@@ -11295,13 +11295,13 @@ $(document).ready(function () {
       var randomNumber = Math.random() * 10;
 
       if (randomNumber < 5) {
-        // Using the Gamma function. That is Gamma(n) = (n-1)!
+        // Using the Gamma function. That is, Gamma(n) = (n-1)!
         return "{\\Gamma\\left( ".concat(n + 1, " \\right)}");
       } else {
         // Using the pi product notation of factorial
-        return "{\\prod_{i=1}^{".concat(n, "} i}");
+        return "\\left({\\prod_{k=1}^{".concat(n, "} k}\\right)");
       }
-    } // List of functions that generate latex math expressions
+    } // List of functions that generate LaTeX math expressions
     // Functions are chosen randomly
 
 
@@ -11319,9 +11319,9 @@ $(document).ready(function () {
       var r = Math.floor(Math.random() * 10) + 1;
 
       if (rand < 5) {
-        var tex = "\\lim_{x \\to ".concat(n - r, "} {{(x^2 - ").concat(Math.pow(r, 2), ")} \\over {x - ").concat(r, "}}").trim();
+        var tex = "\\left({\\lim_{x \\to ".concat(n - r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x - ").concat(r, "}}}\\right)").trim();
       } else {
-        var tex = "\\lim_{x \\to ".concat(n + r, "} {{(x^2 - ").concat(Math.pow(r, 2), ")} \\over {x + ").concat(r, "}}").trim();
+        var tex = "\\left({\\lim_{x \\to ".concat(n + r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x + ").concat(r, "}}}\\right)").trim();
       }
 
       return tex;
@@ -11330,22 +11330,22 @@ $(document).ready(function () {
 
     function limit_natural_log(n) {
       if (n === 0) {
-        return "\\lim_{x \\to \\infty}{ lnx \\over {x} }";
+        return "\\left({\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}\\right)";
       } else if (n === 1) {
-        return "\\lim_{x \\to 1}{ {ln(x)} \\over {x - 1} }";
+        return "\\left({\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }}\\right)";
       } else {
-        return "\\lim_{x \\to 0}{ {-ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }");
+        return "\\left({\\lim_{x \\to 0}{ {-\\ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }}\\right)");
       }
     } // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
 
 
     function limit_exponential(n) {
       if (n === 0) {
-        return "\\lim_{x \\to \\infty}{xe^{-x}}";
+        return "{\\lim_{x \\to \\infty}{xe^{-x}}}";
       } else if (n === 1) {
-        return "\\lim_{x \\to 0}\\left({ {e^x - 1} \\over {x} }\\right)";
+        return "\\left({\\lim_{x \\to 0}{ {e^x - 1} \\over {x} }}\\right)";
       } else {
-        return "\\lim_{x \\to 0}\\left({ {e^{".concat(n, "x} - 1} \\over {x} }\\right)");
+        return "\\left({\\lim_{x \\to 0}{ {e^{".concat(n, "x} - 1} \\over {x} }}\\right)");
       }
     } // Limits of polynomial functions
 
@@ -11360,12 +11360,12 @@ $(document).ready(function () {
 
       if (n === 0) {
         var r = Math.floor(Math.random() * 20);
-        return "\\lim_{x \\to \\infty}{".concat(r, "x^{-1}}");
+        return "{\\lim_{x \\to \\infty}{".concat(r, "x^{-1}}}");
       } // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xg(x)
       else if (n === 1) {
         var _r = Math.floor(Math.random() * 20);
 
-        return "\\lim_{x \\to \\infty}{x^{1/x}}";
+        return "{\\lim_{x \\to \\infty}{x^{1/x}}}";
       } else {
         // Get random multiplier greater than 1
         var m = Math.floor(Math.random() * 5) + 1; // Choose a random highest power. This determines the final solution of the limit
@@ -11374,12 +11374,12 @@ $(document).ready(function () {
         var numerator_length = Math.floor(Math.random() * highest_power - 1) + 1;
         var denominator_length = Math.floor(Math.random() * highest_power - 1) + 1;
         var signs = ["-", "+"];
-        var numerator = "".concat(m * n, "x^").concat(highest_power, " ");
-        var denominator = "".concat(m, "x^").concat(highest_power, " "); // Generate a polynomial numerator with random length and coefficients
+        var numerator = "".concat(m * n, "x^{").concat(highest_power, "} ");
+        var denominator = "".concat(m, "x^{").concat(highest_power, "} "); // Generate a polynomial numerator with random length and coefficients
 
         for (var i = numerator_length; i > 0; i--) {
           var coef = Math.floor(Math.random() * 10) + 2;
-          var power = "^".concat(i);
+          var power = "^{".concat(i, "}");
 
           if (i < 2) {
             // Do not show powers of value 1
@@ -11393,7 +11393,7 @@ $(document).ready(function () {
         for (var _i = denominator_length; _i > 0; _i--) {
           var _coef = Math.floor(Math.random() * 10) + 2;
 
-          var _power = "^".concat(_i);
+          var _power = "^{".concat(_i, "}");
 
           if (_i < 2) {
             // Do not show powers of value 1
@@ -11406,7 +11406,7 @@ $(document).ready(function () {
 
         numerator = "{ ".concat(numerator, " }");
         denominator = "{ ".concat(denominator, " }");
-        return "\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}");
+        return "\\left({\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}}\\right)");
       }
     } // Using euler's identity. That is, e^(pi*i) = -1
 
@@ -11421,9 +11421,9 @@ $(document).ready(function () {
 
 
       if (n != 0) {
-        return "-".concat(n, "e^{\\pi i}");
+        return "{-".concat(n, "e^{\\pi i}}");
       } else {
-        return "e^{\\pi i} + 1";
+        return "{(e^{\\pi i} + 1)}";
       }
     } // Infinite geometric series that evaluates to a finite value
 
@@ -11439,14 +11439,14 @@ $(document).ready(function () {
 
       if (n === 0) {
         var r = Math.floor(Math.random() * 10) + 3;
-        return "\\sum\\limits_{k=0}^{".concat(r - 1, "} {sin{ {2 \\pi k} \\over {").concat(r, "} }}");
+        return "{\\sum\\limits_{k=0}^{".concat(r - 1, "} {\\sin \\left({ {2 \\pi k} \\over {").concat(r, "} } \\right)}}");
       } // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
       else if (n === 1) {
-        return "\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }";
+        return "{\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }}";
       } else {
         // Using the infinite geometric series rule: When −1<x<1, summation from i = 0 to infinity of r^i = 1/(1-r) or (r-1)/r.
         // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
-        return "\\sum\\limits_{i=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^i}");
+        return "\\left({\\sum\\limits_{k=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^{k}}}\\right)");
       }
     } // Using the trig identity (cos^2)x + (sin^2)x = 1
 
@@ -11460,14 +11460,14 @@ $(document).ready(function () {
         var randomValue = Math.random() * 100;
 
         if (randomValue < 25) {
-          return "".concat(randOption(n), " \\over {cos^2x + sin^2x}");
+          return "\\left({".concat(randOption(n), " \\over {(\\cos^2x + \\sin^2x)}}\\right)");
         } else if (randomValue < 50) {
-          return "(".concat(randOption(n), " \\times cos^2x + sin^2x)");
+          return "\\left({".concat(randOption(n), " \\times (\\cos^2x + \\sin^2x)}\\right)");
         } else {
-          return "(".concat(randOption(n + 1), " - cos^2x + sin^2x)");
+          return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
         }
       } else {
-        return "(".concat(randOption(n + 1), " - cos^2x + sin^2x)");
+        return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
       }
     } // Break a number down into smaller numbers separated by operators
 
@@ -11508,7 +11508,7 @@ $(document).ready(function () {
         var diff2 = Math.abs(n - exp2);
 
         if (diff1 < diff2) {
-          var power = "^".concat(floorLog);
+          var power = "^{".concat(floorLog, "}");
 
           if (floorLog < 2) {
             power = "";
@@ -11517,7 +11517,7 @@ $(document).ready(function () {
           var difference = diff1;
           return "".concat(randomOption1(randNum)).concat(power, " + {").concat(randomOption2(difference), "}");
         } else {
-          var _power2 = "^".concat(ceilLog);
+          var _power2 = "^{".concat(ceilLog, "}");
 
           if (ceilLog < 2) {
             _power2 = "";
@@ -11544,11 +11544,11 @@ $(document).ready(function () {
 
         if (diff1 < diff2) {
           oldDiff = diff1;
-          exp = [exp1, "\\left({".concat(randomOption3(3), "}\\right)^").concat(floorLog)];
+          exp = [exp1, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(floorLog, "}")];
           valObj[oldDiff] = exp;
         } else {
           oldDiff = diff2;
-          exp = [exp2, "\\left({".concat(randomOption3(3), "}\\right)^").concat(ceilLog)];
+          exp = [exp2, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(ceilLog, "}")];
           valObj[oldDiff] = exp;
         }
 
@@ -11568,11 +11568,11 @@ $(document).ready(function () {
           var _diff2 = Math.abs(n - _exp2);
 
           if (_diff < _diff2) {
-            exp = [_exp, "\\left({".concat(randomOption3(i), "}\\right)^").concat(_floorLog)];
+            exp = [_exp, "\\left({".concat(randomOption3(i), "}\\right)^{").concat(_floorLog, "}")];
             newDiff = _diff;
             valObj[newDiff] = exp;
           } else {
-            exp = [_exp2, "\\left({".concat(randomOption3(i), "}\\right)^").concat(_ceilLog)];
+            exp = [_exp2, "\\left({".concat(randomOption3(i), "}\\right)^{").concat(_ceilLog, "}")];
             newDiff = _diff2;
             valObj[newDiff] = exp;
           }
@@ -11597,7 +11597,7 @@ $(document).ready(function () {
       if (randomValue < 25 && n < 10) {
         // Represent (small) numbers using their square and square root
         var square = Math.pow(n, 2);
-        return "\\sqrt{".concat(randomOption1(square), "}");
+        return "{\\sqrt{".concat(randomOption1(square), "}}");
       } // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
       else if (randomValue < 50 && isOdd(n) && n < 10) {
         var a = n;
@@ -11615,7 +11615,7 @@ $(document).ready(function () {
         var b = Math.sqrt(b_square);
         var c_square = odd + 2 + b_square;
         var c = Math.sqrt(c_square);
-        return "\\sqrt{\\left({".concat(randomOption1(c), "}\\right)^2 - \\left({").concat(randomOption2(b), "}\\right)^2}");
+        return "{\\sqrt{\\left({".concat(randomOption1(c), "}\\right)^2 - \\left({").concat(randomOption2(b), "}\\right)^2}}");
       } // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
       else if (randomValue < 70) {
         var randNum = Math.floor(Math.random() * n + 1) + 1;
@@ -11690,7 +11690,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40585" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33133" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
