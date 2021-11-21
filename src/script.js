@@ -31,7 +31,7 @@ $(document).ready(function() {
          }
   
     
-        // Checking whether a number can be formed using factorial
+        // Checking if a number can be formed using factorial
         function isFactorial(n) {
           switch (n) {
             case 2:
@@ -62,7 +62,7 @@ $(document).ready(function() {
           let randomNumber = Math.random() * 10;
     
           if (randomNumber < 5) {
-            // Using the Gamma function. That is Gamma(n) = (n-1)!
+            // Using the Gamma function. That is, Gamma(n) = (n-1)!
             return `{\\Gamma\\left( ${n + 1} \\right)}`;
           } else {
             // Using the pi product notation of factorial
@@ -70,7 +70,7 @@ $(document).ready(function() {
           }
         }
     
-        // List of functions that generate latex math expressions
+        // List of functions that generate LaTeX math expressions
         // Functions are chosen randomly
         let possible_options = [
           lim_diff_two_squares,
@@ -91,13 +91,13 @@ $(document).ready(function() {
           let rand = Math.floor(Math.random() * 10);
           let r = Math.floor(Math.random() * 10) + 1;
           if (rand < 5) {
-            var tex = `\\lim_{x \\to ${n - r}} {{(x^2 - ${
+            var tex = `\\lim_{x \\to ${n - r}} {{x^2 - ${
               r ** 2
-            })} \\over {x - ${r}}}`.trim();
+            }} \\over {x - ${r}}}`.trim();
           } else {
-            var tex = `\\lim_{x \\to ${n + r}} {{(x^2 - ${
+            var tex = `\\lim_{x \\to ${n + r}} {{x^2 - ${
               r ** 2
-            })} \\over {x + ${r}}}`.trim();
+            }} \\over {x + ${r}}}`.trim();
           }
           return tex;
         }
@@ -105,9 +105,9 @@ $(document).ready(function() {
         // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
         function limit_natural_log(n) {
           if (n === 0) {
-            return `\\lim_{x \\to \\infty}{ \\lnx \\over {x} }`;
+            return `\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }`;
           } else if (n === 1) {
-            return `\\lim_{x \\to 1}{ {\\ln(x)} \\over {x - 1} }`;
+            return `\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }`;
           } else {
             return `\\lim_{x \\to 0}{ {-\\ln(1 + ${n}(e^{-x} - 1))} \\over {x} }`;
           }
@@ -214,7 +214,7 @@ $(document).ready(function() {
             let r = Math.floor(Math.random() * 10) + 3;
             return `\\sum\\limits_{k=0}^{${
               r - 1
-            }} {\\sin{ {2 \\pi k} \\over {${r}} }}`;
+            }} {\\sin \\left({ {2 \\pi k} \\over {${r}} } \\right)}`;
           }
     
           // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
@@ -243,14 +243,14 @@ $(document).ready(function() {
           if (n > 0) {
             let randomValue = Math.random() * 100;
             if (randomValue < 25) {
-              return `${randOption(n)} \\over {\\cos^2x + \\sin^2x}`;
+              return `${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}`;
             } else if (randomValue < 50) {
-              return `(${randOption(n)} \\times \\cos^2x + \\sin^2x)`;
+              return `${randOption(n)} \\times (\\cos^2x + \\sin^2x)`;
             } else {
-              return `(${randOption(n + 1)} - \\cos^2x + \\sin^2x)`;
+              return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
             }
           } else {
-            return `(${randOption(n + 1)} - \\cos^2x + \\sin^2x)`;
+            return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
           }
         }
     
