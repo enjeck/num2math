@@ -11241,16 +11241,14 @@ $(document).ready(function () {
     convert();
   }
 
-  form.addEventListener("submit", handleForm); //$('#render').on("click", convert);
-
+  form.addEventListener("submit", handleForm);
   $('#display').on("change", convert);
-  $('#render').on("click touchstart", convert);
   $('.close ').click(function () {
     $('#mobile-notice').hide();
   });
 
   function convert() {
-    //  Get the TeX input
+    //  Get the number input
     var number = document.getElementById("input").value; // Validating input
 
     if (isNaN(number) || number === "" || number > 1000 || number < 0) {
@@ -11259,14 +11257,8 @@ $(document).ready(function () {
 
 
     function isOdd(n) {
-      if (n % 2 !== 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    /* Need to add another slash to latex strings to prevent slash escape */
-    // Checking whether a number can be formed using factorial
+      return n % 2 !== 0;
+    } // Checking whether a number can be formed using factorial
 
 
     function isFactorial(n) {
@@ -11276,7 +11268,7 @@ $(document).ready(function () {
           break;
 
         case 6:
-          return 6;
+          return 3;
           break;
 
         case 24:
@@ -11294,7 +11286,9 @@ $(document).ready(function () {
         default:
           return false;
       }
-    } // Representing factorial values using the Gamma function or Pi Product notation
+    }
+    /* Need to add another slash to latex strings to prevent slash escape */
+    // Representing factorial values using the Gamma function or Pi Product notation
 
 
     function factorial(n) {
@@ -11696,7 +11690,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35041" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40585" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
