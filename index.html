@@ -9,16 +9,45 @@
       content="complicated math equation generator. What is a very complicated math
       expression/problem that equals xxx? Enter a solution and get a hard equation that gives that answer."
     />
-    <meta name="keywords" content="math, complicated math, math equation, complicated equation generator, complicated math equation" />
+    <meta
+      name="keywords"
+      content="math, complicated math, math equation, complicated equation generator, complicated math equation"
+    />
     <title>num2math - Complicated math equation generator</title>
     <link href="src/styles.css" rel="stylesheet" type="text/css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-W8GSQN5XSZ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-W8GSQN5XSZ");
+    </script>
+
+    <!-- MathJax-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script
       id="MathJax-script"
       async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
     ></script>
+
+    <!-- For Download as PNG capability-->
+    <script src="https://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.4/rgbcolor.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stackblur-canvas/1.4.1/stackblur.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
+
+    <!-- Custom -->
     <script src="src/script.js"></script>
+    <script src="src/download-png.js"></script>
   </head>
 
   <body>
@@ -40,8 +69,8 @@
       <div class="intro">
         <h1>num2math</h1>
         <h3>
-          A complicated math equation generator. What is a very complicated math
-          problem that equals xxx? Let's find out!
+          A complicated math expression generator. What is a very complicated
+          math equation that equals xxx? Let's find out!
         </h3>
       </div>
 
@@ -69,6 +98,7 @@
       </form>
       <br clear="all" />
       <div id="output"></div>
+      <button id="download-img">Download as PNG</button>
       <div class="tips">
         <h4><em> Tips </em></h4>
         <ul>
