@@ -3,17 +3,6 @@ const $ = jQuery.noConflict();
 
 $(document).ready(function () {
   let downloadBtn = document.getElementById("download-img");
-  let generateBtn = document.getElementById("render");
-  let output = document.getElementById("output");
-
-  generateBtn.addEventListener('click', ()=> {
-    if (output.innerHTML.length !=="0"){
-        downloadBtn.style.display = "block"
-    }
-    else {
-      downloadBtn.style.display = "none"
-    }
-  })
 
   downloadBtn.addEventListener("click", downloadPNG);
   // Initiate download of blob

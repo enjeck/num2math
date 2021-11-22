@@ -417,6 +417,7 @@ $(document).ready(function() {
         var display = document.getElementById("display");
         var button = document.getElementById("render");
         button.disabled = display.disabled = true;
+        let downloadBtn = document.getElementById("download-img");
     
         //  Clear the old output
     
@@ -438,6 +439,8 @@ $(document).ready(function() {
             output.appendChild(node);
             MathJax.startup.document.clear();
             MathJax.startup.document.updateDocument();
+            // Display download button
+            downloadBtn.style.display = "block"
           })
           .catch(function (err) {
             //  If there was an error, put the message into the output instead
