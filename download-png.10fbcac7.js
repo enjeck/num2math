@@ -11212,453 +11212,64 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
-},{"process":"node_modules/process/browser.js"}],"src/script.js":[function(require,module,exports) {
+},{"process":"node_modules/process/browser.js"}],"src/download-png.js":[function(require,module,exports) {
 "use strict";
 
 var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 var $ = _jquery.default.noConflict();
 
 $(document).ready(function () {
-  var form = document.getElementById("form");
+  var downloadBtn = document.getElementById("download-img");
+  var generateBtn = document.getElementById("render");
+  var output = document.getElementById("output");
+  generateBtn.addEventListener('click', function () {
+    if (output.innerHTML.length !== "0") {
+      downloadBtn.style.display = "block";
+    } else {
+      downloadBtn.style.display = "none";
+    }
+  });
+  downloadBtn.addEventListener("click", downloadPNG); // Initiate download of blob
 
-  function handleForm(event) {
-    event.preventDefault();
-    convert();
+  function download(filename, // string
+  blob // Blob
+  ) {
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+    } else {
+      // Create and link and click on it to automatically download image
+      var elem = window.document.createElement("a");
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = filename;
+      elem.click();
+    }
   }
 
-  form.addEventListener("submit", handleForm);
-  $('#display').on("change", convert);
-  $('.close ').click(function () {
-    $('#mobile-notice').hide();
-  });
+  function downloadPNG() {
+    // Get the svg from the page
+    var svg = document.querySelector("svg"); // Get the current number
 
-  function convert() {
-    //  Get the number input
-    var number = document.getElementById("input").value; // Validating input
+    var number = document.getElementById("input").value; // Increase the SVG's width and height to produce a bigger image
 
-    if (isNaN(number) || number === "" || number > 1000 || number < 0) {
-      return;
-    } // helper functions
+    var w = parseInt(svg.getAttribute("width")) * 3;
+    var h = parseInt(svg.getAttribute("height")) * 3; // Clone the svg before changing width and height so that it does not affect the svg on the page
 
+    svg = svg.cloneNode(true);
+    svg.setAttribute("width", "".concat(w, "ex"));
+    svg.setAttribute("height", "".concat(h, "ex")); // Convert SVG to string data
 
-    function isOdd(n) {
-      return n % 2 !== 0;
-    } // Checking if a number can be formed using factorial
-
-
-    function isFactorial(n) {
-      switch (n) {
-        case 2:
-          return 2;
-          break;
-
-        case 6:
-          return 3;
-          break;
-
-        case 24:
-          return 4;
-          break;
-
-        case 120:
-          return 5;
-          break;
-
-        case 720:
-          return 6;
-          break;
-
-        default:
-          return false;
+    var data = new XMLSerializer().serializeToString(svg);
+    var canvas = document.createElement("canvas");
+    canvg(canvas, data, {
+      renderCallback: function renderCallback() {
+        // Convert SVG data to PNG image
+        canvas.toBlob(function (blob) {
+          download("complicated-equation-that-equals-".concat(number, ".png"), blob);
+        });
       }
-    }
-    /* Need to add another slash to latex strings to prevent slash escape */
-    // Representing factorial values using the Gamma function or Pi Product notation
-
-
-    function factorial(n) {
-      var randomNumber = Math.random() * 10;
-
-      if (randomNumber < 5) {
-        // Using the Gamma function. That is, Gamma(n) = (n-1)!
-        return "{\\Gamma\\left( ".concat(n + 1, " \\right)}");
-      } else {
-        // Using the pi product notation of factorial
-        return "\\left({\\prod_{k=1}^{".concat(n, "} k}\\right)");
-      }
-    } // List of functions that generate LaTeX math expressions
-    // Functions are chosen randomly
-
-
-    var possible_options = [lim_diff_two_squares, eulers_identity, infinite_geometric_series, limit_polynomial, limit_exponential, limit_natural_log, trig_identity];
-    /* Using the difference of two squares in limits */
-
-    function lim_diff_two_squares(n) {
-      var fac = isFactorial(n);
-
-      if (fac) {
-        return factorial(fac);
-      }
-
-      var rand = Math.floor(Math.random() * 10);
-      var r = Math.floor(Math.random() * 10) + 1;
-
-      if (rand < 5) {
-        var tex = "\\left({\\lim_{x \\to ".concat(n - r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x - ").concat(r, "}}}\\right)").trim();
-      } else {
-        var tex = "\\left({\\lim_{x \\to ".concat(n + r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x + ").concat(r, "}}}\\right)").trim();
-      }
-
-      return tex;
-    } // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
-
-
-    function limit_natural_log(n) {
-      if (n === 0) {
-        return "\\left({\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}\\right)";
-      } else if (n === 1) {
-        return "\\left({\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }}\\right)";
-      } else {
-        return "\\left({\\lim_{x \\to 0}{ {-\\ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }}\\right)");
-      }
-    } // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
-
-
-    function limit_exponential(n) {
-      if (n === 0) {
-        return "{\\lim_{x \\to \\infty}{xe^{-x}}}";
-      } else if (n === 1) {
-        return "\\left({\\lim_{x \\to 0}{ {e^x - 1} \\over {x} }}\\right)";
-      } else {
-        return "\\left({\\lim_{x \\to 0}{ {e^{".concat(n, "x} - 1} \\over {x} }}\\right)");
-      }
-    } // Limits of polynomial functions
-
-
-    function limit_polynomial(n) {
-      var fac = isFactorial(n);
-
-      if (fac) {
-        return factorial(fac);
-      } // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xa
-
-
-      if (n === 0) {
-        var r = Math.floor(Math.random() * 20);
-        return "{\\lim_{x \\to \\infty}{".concat(r, "x^{-1}}}");
-      } // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xg(x)
-      else if (n === 1) {
-        var _r = Math.floor(Math.random() * 20);
-
-        return "{\\lim_{x \\to \\infty}{x^{1/x}}}";
-      } else {
-        // Get random multiplier greater than 1
-        var m = Math.floor(Math.random() * 5) + 1; // Choose a random highest power. This determines the final solution of the limit
-
-        var highest_power = Math.floor(Math.random() * 3) + 2;
-        var numerator_length = Math.floor(Math.random() * highest_power - 1) + 1;
-        var denominator_length = Math.floor(Math.random() * highest_power - 1) + 1;
-        var signs = ["-", "+"];
-        var numerator = "".concat(m * n, "x^{").concat(highest_power, "} ");
-        var denominator = "".concat(m, "x^{").concat(highest_power, "} "); // Generate a polynomial numerator with random length and coefficients
-
-        for (var i = numerator_length; i > 0; i--) {
-          var coef = Math.floor(Math.random() * 10) + 2;
-          var power = "^{".concat(i, "}");
-
-          if (i < 2) {
-            // Do not show powers of value 1
-            power = "";
-          }
-
-          numerator += "".concat(signs[Math.floor(Math.random() * 2)], " ").concat(coef, "x").concat(power, " ");
-        } // Generate a polynomial denominator with random length and coefficients
-
-
-        for (var _i = denominator_length; _i > 0; _i--) {
-          var _coef = Math.floor(Math.random() * 10) + 2;
-
-          var _power = "^{".concat(_i, "}");
-
-          if (_i < 2) {
-            // Do not show powers of value 1
-            _power = "";
-          }
-
-          denominator += "".concat(signs[Math.floor(Math.random() * 2)], " ").concat(_coef, "x").concat(_power, " ");
-        } // Surround everything with curly braces so that they're treated as one
-
-
-        numerator = "{ ".concat(numerator, " }");
-        denominator = "{ ".concat(denominator, " }");
-        return "\\left({\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}}\\right)");
-      }
-    } // Using euler's identity. That is, e^(pi*i) = -1
-
-
-    function eulers_identity(n) {
-      // If number can be expressed as a factorial, prefer this instead of Euler's identity
-      var fac = isFactorial(n);
-
-      if (fac) {
-        return factorial(fac);
-      } // e.g −6e^(pi*i)=6
-
-
-      if (n != 0) {
-        return "{-".concat(n, "e^{\\pi i}}");
-      } else {
-        return "{(e^{\\pi i} + 1)}";
-      }
-    } // Infinite geometric series that evaluates to a finite value
-
-
-    function infinite_geometric_series(n) {
-      // If number can be expressed as a factorial, prefer this instead of the inifinite geometric series expression
-      var fac = isFactorial(n);
-
-      if (fac) {
-        return factorial(fac);
-      } // https://en.wikipedia.org/wiki/List_of_mathematical_series#Trigonometric_functions
-
-
-      if (n === 0) {
-        var r = Math.floor(Math.random() * 10) + 3;
-        return "{\\sum\\limits_{k=0}^{".concat(r - 1, "} {\\sin \\left({ {2 \\pi k} \\over {").concat(r, "} } \\right)}}");
-      } // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
-      else if (n === 1) {
-        return "{\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }}";
-      } else {
-        // Using the infinite geometric series rule: When −1<x<1, summation from i = 0 to infinity of r^i = 1/(1-r) or (r-1)/r.
-        // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
-        return "\\left({\\sum\\limits_{k=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^{k}}}\\right)");
-      }
-    } // Using the trig identity (cos^2)x + (sin^2)x = 1
-
-
-    function trig_identity(n) {
-      var options_for_trig = [lim_diff_two_squares, eulers_identity, infinite_geometric_series, limit_polynomial, limit_exponential];
-      var randIndex = Math.floor(Math.random() * options_for_trig.length);
-      var randOption = options_for_trig[randIndex];
-
-      if (n > 0) {
-        var randomValue = Math.random() * 100;
-
-        if (randomValue < 25) {
-          return "\\left({".concat(randOption(n), " \\over {(\\cos^2x + \\sin^2x)}}\\right)");
-        } else if (randomValue < 50) {
-          return "\\left({".concat(randOption(n), " \\times (\\cos^2x + \\sin^2x)}\\right)");
-        } else {
-          return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
-        }
-      } else {
-        return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
-      }
-    } // Break a number down into smaller numbers separated by operators
-
-
-    function decompose(n) {
-      var randomValue = Math.random() * 100; // Select three posibble options.
-      // Delete option from the list after it's used to avoid using same thing more than once.
-
-      var randIndex1 = Math.floor(Math.random() * possible_options.length);
-      var randomOption1 = possible_options[randIndex1];
-      var possible_options2 = [].concat(possible_options);
-
-      if (randIndex1 > -1) {
-        possible_options2.splice(randIndex1, 1);
-      }
-
-      var randIndex2 = Math.floor(Math.random() * possible_options2.length);
-      var randomOption2 = possible_options2[randIndex2];
-
-      var possible_options3 = _toConsumableArray(possible_options2);
-
-      if (randIndex2 > -1) {
-        possible_options3.splice(randIndex2, 1);
-      }
-
-      var randIndex3 = Math.floor(Math.random() * possible_options3.length);
-      var randomOption3 = possible_options3[randIndex3]; // Another function to break numbers down into smaller numbers, expressed using exponent
-
-      function decompose2(n) {
-        //if (n > 50) {
-        var randNum = Math.floor(Math.random() * 3) + 6;
-        var logValue = Math.log(n) / Math.log(randNum);
-        var floorLog = Math.floor(logValue);
-        var ceilLog = Math.ceil(logValue);
-        var exp1 = Math.pow(randNum, floorLog);
-        var exp2 = Math.pow(randNum, ceilLog);
-        var diff1 = Math.abs(n - exp1);
-        var diff2 = Math.abs(n - exp2);
-
-        if (diff1 < diff2) {
-          var power = "^{".concat(floorLog, "}");
-
-          if (floorLog < 2) {
-            power = "";
-          }
-
-          var difference = diff1;
-          return "".concat(randomOption1(randNum)).concat(power, " + {").concat(randomOption2(difference), "}");
-        } else {
-          var _power2 = "^{".concat(ceilLog, "}");
-
-          if (ceilLog < 2) {
-            _power2 = "";
-          }
-
-          var _difference = diff2;
-          return "".concat(randomOption1(randNum)).concat(_power2, " - {").concat(randomOption2(_difference), "}");
-        } // }
-
-      } // Generate the smallest possible breakdown in exponent
-      // Ideal for large numbers > 50
-
-
-      function minExp(n) {
-        var oldDiff, newDiff, exp, exponent;
-        var valObj = {};
-        var logValue = Math.log(n) / Math.log(3);
-        var floorLog = Math.floor(logValue);
-        var ceilLog = Math.ceil(logValue);
-        var exp1 = Math.pow(3, floorLog);
-        var exp2 = Math.pow(3, ceilLog);
-        var diff1 = Math.abs(n - exp1);
-        var diff2 = Math.abs(n - exp2);
-
-        if (diff1 < diff2) {
-          oldDiff = diff1;
-          exp = [exp1, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(floorLog, "}")];
-          valObj[oldDiff] = exp;
-        } else {
-          oldDiff = diff2;
-          exp = [exp2, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(ceilLog, "}")];
-          valObj[oldDiff] = exp;
-        }
-
-        for (var i = 4; i < 9; i++) {
-          var _logValue = Math.log(n) / Math.log(i);
-
-          var _floorLog = Math.floor(_logValue);
-
-          var _ceilLog = Math.ceil(_logValue);
-
-          var _exp = Math.pow(i, _floorLog);
-
-          var _exp2 = Math.pow(i, _ceilLog);
-
-          var _diff = Math.abs(n - _exp);
-
-          var _diff2 = Math.abs(n - _exp2);
-
-          if (_diff < _diff2) {
-            exp = [_exp, "\\left({".concat(randomOption3(i), "}\\right)^{").concat(_floorLog, "}")];
-            newDiff = _diff;
-            valObj[newDiff] = exp;
-          } else {
-            exp = [_exp2, "\\left({".concat(randomOption3(i), "}\\right)^{").concat(_ceilLog, "}")];
-            newDiff = _diff2;
-            valObj[newDiff] = exp;
-          }
-
-          newDiff = Math.min(newDiff, oldDiff);
-          oldDiff = newDiff;
-          exponent = valObj[newDiff];
-        }
-
-        if (exponent[0] < n) {
-          return "".concat(exponent[1], " + \\left({").concat(decompose2(newDiff), "}\\right)");
-        } else {
-          return "".concat(exponent[1], " - \\left({").concat(decompose2(newDiff), "}\\right)");
-        }
-      } // Break down larger numbers using exponents
-
-
-      if (n > 70) {
-        return minExp(n);
-      }
-
-      if (randomValue < 25 && n < 10) {
-        // Represent (small) numbers using their square and square root
-        var square = Math.pow(n, 2);
-        return "{\\sqrt{".concat(randomOption1(square), "}}");
-      } // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
-      else if (randomValue < 50 && isOdd(n) && n < 10) {
-        var a = n;
-        var a_square = Math.pow(a, 2);
-        var position = (a_square + 1) / 2; // Find sum of previous position - 1 terms
-
-        var b_square = 0;
-        var odd = -1;
-
-        for (var i = 1; i < position; i++) {
-          odd += 2;
-          b_square += odd;
-        }
-
-        var b = Math.sqrt(b_square);
-        var c_square = odd + 2 + b_square;
-        var c = Math.sqrt(c_square);
-        return "{\\sqrt{\\left({".concat(randomOption1(c), "}\\right)^2 - \\left({").concat(randomOption2(b), "}\\right)^2}}");
-      } // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
-      else if (randomValue < 70) {
-        var randNum = Math.floor(Math.random() * n + 1) + 1;
-        var r = n % randNum;
-
-        var _a = Math.floor(n / randNum);
-
-        return "".concat(randomOption1(_a), " \\times {").concat(randomOption2(randNum), "} + ").concat(randomOption3(r)); // Multiply and divide by a random number. e.g 2 = (2*5)/5
-      } else {
-        var _r2 = Math.floor(Math.random() * 5) + 1;
-
-        return "".concat(randomOption1(n * _r2), " \\over {").concat(randomOption2(_r2), "}");
-      }
-    }
-
-    var input = decompose(number); //  Disable the display and render buttons until MathJax is done
-
-    var display = document.getElementById("display");
-    var button = document.getElementById("render");
-    button.disabled = display.disabled = true; //  Clear the old output
-
-    var output = document.getElementById("output");
-    output.innerHTML = ""; //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
-    //  Get the conversion options (metrics and display settings)
-    //  Convert the input to CommonHTML output and use a promise to wait for it to be ready
-    //    (in case an extension needs to be loaded dynamically).
-
-    MathJax.texReset();
-    var options = MathJax.getMetricsFor(output);
-    options.display = display.checked;
-    MathJax.tex2svgPromise(input, options).then(function (node) {
-      //  The promise returns the typeset node, which we add to the output
-      //  Then update the document to include the adjusted CSS for the
-      //    content of the new equation.
-      output.appendChild(node);
-      MathJax.startup.document.clear();
-      MathJax.startup.document.updateDocument();
-    }).catch(function (err) {
-      //  If there was an error, put the message into the output instead
-      output.appendChild(document.createElement("pre")).appendChild(document.createTextNode(err.message));
-    }).then(function () {
-      //  Error or not, re-enable the display and render buttons
-      button.disabled = display.disabled = false;
     });
   }
 });
@@ -11866,5 +11477,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/script.js"], null)
-//# sourceMappingURL=/script.baf0e655.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/download-png.js"], null)
+//# sourceMappingURL=/download-png.10fbcac7.js.map

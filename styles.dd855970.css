@@ -15,7 +15,7 @@
   }
   .intro {
 	  text-align: center;
-	  max-width: 20em;
+	  max-width: 25em;
 	  margin: auto;
 	  margin-bottom: 50px;
 
@@ -81,6 +81,31 @@
 	  cursor: pointer;
   }
 
+  #download-img {
+	  margin-top: 10px;
+	  padding: 10px 20px;
+	  font-size: 15px;
+	  outline: none;
+	  border: 2px solid brown;
+	  font-weight: 500;
+	  background-color: transparent;
+	  color: brown;
+	  cursor: pointer;
+	  display: none;
+  }
+
+  .tips h4 {
+	  margin-bottom: 1px;
+  }
+
+  .tips ul {
+	  margin-top: 0;
+	  padding-left: 23px;
+  }
+  .tips li {
+	  font-size: 15px;
+	  font-style: italic;
+  }
 
   @media(max-width:550px){
 	#mobile-notice {
