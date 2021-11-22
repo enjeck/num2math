@@ -2,7 +2,7 @@
   "homepage": "http://enjeck.github.io/num2math",
   "name": "num2math",
   "version": "1.0.0",
-  "description": "Generate a complicated math expression that results in a number",
+  "description": "A complication math expression generator. What is a really complicated math equation that equals xxx? Input a solution and get a math expression. Equations can be copied.",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
