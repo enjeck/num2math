@@ -11635,7 +11635,8 @@ $(document).ready(function () {
 
     var display = document.getElementById("display");
     var button = document.getElementById("render");
-    button.disabled = display.disabled = true; //  Clear the old output
+    button.disabled = display.disabled = true;
+    var downloadBtn = document.getElementById("download-img"); //  Clear the old output
 
     var output = document.getElementById("output");
     output.innerHTML = ""; //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
@@ -11652,7 +11653,9 @@ $(document).ready(function () {
       //    content of the new equation.
       output.appendChild(node);
       MathJax.startup.document.clear();
-      MathJax.startup.document.updateDocument();
+      MathJax.startup.document.updateDocument(); // Display download button
+
+      downloadBtn.style.display = "block";
     }).catch(function (err) {
       //  If there was an error, put the message into the output instead
       output.appendChild(document.createElement("pre")).appendChild(document.createTextNode(err.message));
@@ -11690,7 +11693,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46565" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33075" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -11223,15 +11223,6 @@ var $ = _jquery.default.noConflict();
 
 $(document).ready(function () {
   var downloadBtn = document.getElementById("download-img");
-  var generateBtn = document.getElementById("render");
-  var output = document.getElementById("output");
-  generateBtn.addEventListener('click', function () {
-    if (output.innerHTML.length !== "0") {
-      downloadBtn.style.display = "block";
-    } else {
-      downloadBtn.style.display = "none";
-    }
-  });
   downloadBtn.addEventListener("click", downloadPNG); // Initiate download of blob
 
   function download(filename, // string
@@ -11301,7 +11292,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46565" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33075" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
