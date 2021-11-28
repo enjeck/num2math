@@ -59,9 +59,7 @@ $(document).ready(function() {
 
         // Representing factorial values using the Gamma function or Pi Product notation
         function factorial(n) {
-          let randomNumber = Math.random() * 10;
-    
-          if (randomNumber < 5) {
+          if (Math.random() < 0.5) {
             // Using the Gamma function. That is, Gamma(n) = (n-1)!
             return `{\\Gamma\\left( ${n + 1} \\right)}`;
           } else {
@@ -88,9 +86,8 @@ $(document).ready(function() {
           if (fac) {
             return factorial(fac);
           }
-          let rand = Math.floor(Math.random() * 10);
           let r = Math.floor(Math.random() * 10) + 1;
-          if (rand < 5) {
+          if (Math.random() < 0.5) {
             var tex = `\\left({\\lim_{x \\to ${n - r}} {{x^2 - ${
               r ** 2
             }} \\over {x - ${r}}}}\\right)`.trim();
@@ -241,10 +238,10 @@ $(document).ready(function() {
           let randIndex = Math.floor(Math.random() * options_for_trig.length);
           let randOption = options_for_trig[randIndex];
           if (n > 0) {
-            let randomValue = Math.random() * 100;
-            if (randomValue < 25) {
+            let randomValue = Math.random();
+            if (randomValue < 0.25) {
               return `\\left({${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
-            } else if (randomValue < 50) {
+            } else if (randomValue < 0.50) {
               return `\\left({${randOption(n)} \\times (\\cos^2x + \\sin^2x)}\\right)`;
             } else {
               return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
@@ -256,8 +253,6 @@ $(document).ready(function() {
     
         // Break a number down into smaller numbers separated by operators
         function decompose(n) {
-          let randomValue = Math.random() * 100;
-    
           // Select three posibble options.
           // Delete option from the list after it's used to avoid using same thing more than once.
           let randIndex1 = Math.floor(Math.random() * possible_options.length);
@@ -368,15 +363,17 @@ $(document).ready(function() {
           if (n > 70) {
             return minExp(n);
           }
+
+          let randomValue = Math.random();
     
-          if (randomValue < 25 && n < 10) {
+          if (randomValue < 0.25 && n < 10) {
             // Represent (small) numbers using their square and square root
             let square = n ** 2;
             return `{\\sqrt{${randomOption1(square)}}}`;
           }
     
           // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
-          else if (randomValue < 50 && isOdd(n) && n < 10) {
+          else if (randomValue < 0.5 && isOdd(n) && n < 10) {
             let a = n;
             let a_square = a ** 2;
             let position = (a_square + 1) / 2;
@@ -396,7 +393,7 @@ $(document).ready(function() {
           }
     
           // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
-          else if (randomValue < 70) {
+          else if (randomValue < 0.7) {
             let randNum = Math.floor(Math.random() * n + 1) + 1;
             let r = n % randNum;
             let a = Math.floor(n / randNum);
