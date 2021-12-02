@@ -11242,9 +11242,9 @@ $(document).ready(function () {
   }
 
   form.addEventListener("submit", handleForm);
-  $('#display').on("change", convert);
-  $('.close ').click(function () {
-    $('#mobile-notice').hide();
+  $("#display").on("change", convert);
+  $(".close ").click(function () {
+    $("#mobile-notice").hide();
   });
 
   function convert() {
@@ -11253,11 +11253,37 @@ $(document).ready(function () {
 
     if (isNaN(number) || number === "" || number > 1000 || number < 0) {
       return;
-    } // helper functions
+    }
+    /* helper functions */
 
 
     function isOdd(n) {
       return n % 2 !== 0;
+    }
+
+    function isSquare(n) {
+      return Number.isInteger(Math.sqrt(n));
+    }
+
+    function isPrime(n) {
+      if (n <= 1) return false; // handling negatives
+
+      if (n % 2 == 0 && n > 2) return false; // handling even numbers
+
+      var s = Math.sqrt(n); // store the square to loop faster
+
+      for (var i = 3; i <= s; i += 2) {
+        // start from 3, stop at the square, increment in twos
+        if (n % i === 0) return false; // modulo shows a divisor was found
+      }
+
+      return true;
+    }
+
+    function getFactors(n) {
+      return _toConsumableArray(Array(n + 1).keys()).filter(function (i) {
+        return n % i === 0;
+      });
     } // Checking if a number can be formed using factorial
 
 
@@ -11292,14 +11318,12 @@ $(document).ready(function () {
 
 
     function factorial(n) {
-      var randomNumber = Math.random() * 10;
-
-      if (randomNumber < 5) {
+      if (Math.random() < 0.5) {
         // Using the Gamma function. That is, Gamma(n) = (n-1)!
-        return "{\\Gamma\\left( ".concat(n + 1, " \\right)}");
+        return "{\\Gamma (".concat(n + 1, ")}");
       } else {
         // Using the pi product notation of factorial
-        return "\\left({\\prod_{k=1}^{".concat(n, "} k}\\right)");
+        return "{\\prod_{k=1}^{".concat(n, "} k}");
       }
     } // List of functions that generate LaTeX math expressions
     // Functions are chosen randomly
@@ -11315,13 +11339,12 @@ $(document).ready(function () {
         return factorial(fac);
       }
 
-      var rand = Math.floor(Math.random() * 10);
       var r = Math.floor(Math.random() * 10) + 1;
 
-      if (rand < 5) {
-        var tex = "\\left({\\lim_{x \\to ".concat(n - r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x - ").concat(r, "}}}\\right)").trim();
+      if (Math.random() < 0.5) {
+        var tex = "{\\lim_{x \\to ".concat(n - r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x - ").concat(r, "}}}").trim();
       } else {
-        var tex = "\\left({\\lim_{x \\to ".concat(n + r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x + ").concat(r, "}}}\\right)").trim();
+        var tex = "{\\lim_{x \\to ".concat(n + r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x + ").concat(r, "}}}").trim();
       }
 
       return tex;
@@ -11330,11 +11353,11 @@ $(document).ready(function () {
 
     function limit_natural_log(n) {
       if (n === 0) {
-        return "\\left({\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}\\right)";
+        return "{\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}";
       } else if (n === 1) {
-        return "\\left({\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }}\\right)";
+        return "{\\lim_{x \\to 1}  { {\\ln(x)} \\over {x - 1} }}";
       } else {
-        return "\\left({\\lim_{x \\to 0}{ {-\\ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }}\\right)");
+        return "{\\lim_{x \\to 0}{ {-\\ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }}");
       }
     } // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
 
@@ -11343,9 +11366,9 @@ $(document).ready(function () {
       if (n === 0) {
         return "{\\lim_{x \\to \\infty}{xe^{-x}}}";
       } else if (n === 1) {
-        return "\\left({\\lim_{x \\to 0}{ {e^x - 1} \\over {x} }}\\right)";
+        return "{\\lim_{x \\to 0}{ {e^x - 1} \\over {x} }}";
       } else {
-        return "\\left({\\lim_{x \\to 0}{ {e^{".concat(n, "x} - 1} \\over {x} }}\\right)");
+        return "{\\lim_{x \\to 0}{ {e^{".concat(n, "x} - 1} \\over {x} }}");
       }
     } // Limits of polynomial functions
 
@@ -11406,7 +11429,7 @@ $(document).ready(function () {
 
         numerator = "{ ".concat(numerator, " }");
         denominator = "{ ".concat(denominator, " }");
-        return "\\left({\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}}\\right)");
+        return "{\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}}");
       }
     } // Using euler's identity. That is, e^(pi*i) = -1
 
@@ -11446,7 +11469,7 @@ $(document).ready(function () {
       } else {
         // Using the infinite geometric series rule: When −1<x<1, summation from i = 0 to infinity of r^i = 1/(1-r) or (r-1)/r.
         // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
-        return "\\left({\\sum\\limits_{k=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^{k}}}\\right)");
+        return "{\\sum\\limits_{k=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^{k}}}");
       }
     } // Using the trig identity (cos^2)x + (sin^2)x = 1
 
@@ -11457,11 +11480,11 @@ $(document).ready(function () {
       var randOption = options_for_trig[randIndex];
 
       if (n > 0) {
-        var randomValue = Math.random() * 100;
+        var randomValue = Math.random();
 
-        if (randomValue < 25) {
+        if (randomValue < 0.25) {
           return "\\left({".concat(randOption(n), " \\over {(\\cos^2x + \\sin^2x)}}\\right)");
-        } else if (randomValue < 50) {
+        } else if (randomValue < 0.5) {
           return "\\left({".concat(randOption(n), " \\times (\\cos^2x + \\sin^2x)}\\right)");
         } else {
           return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
@@ -11473,9 +11496,8 @@ $(document).ready(function () {
 
 
     function decompose(n) {
-      var randomValue = Math.random() * 100; // Select three posibble options.
+      // Select three posibble options.
       // Delete option from the list after it's used to avoid using same thing more than once.
-
       var randIndex1 = Math.floor(Math.random() * possible_options.length);
       var randomOption1 = possible_options[randIndex1];
       var possible_options2 = [].concat(possible_options);
@@ -11494,7 +11516,12 @@ $(document).ready(function () {
       }
 
       var randIndex3 = Math.floor(Math.random() * possible_options3.length);
-      var randomOption3 = possible_options3[randIndex3]; // Another function to break numbers down into smaller numbers, expressed using exponent
+      var randomOption3 = possible_options3[randIndex3];
+
+      function moreRandomOptions(num) {
+        return possible_options3[Math.floor(Math.random() * possible_options3.length)](num);
+      } // Another function to break numbers down into smaller numbers, expressed using exponent
+
 
       function decompose2(n) {
         //if (n > 50) {
@@ -11515,7 +11542,7 @@ $(document).ready(function () {
           }
 
           var difference = diff1;
-          return "".concat(randomOption1(randNum)).concat(power, " + {").concat(randomOption2(difference), "}");
+          return "{ \\left({".concat(randomOption1(randNum), "}\\right)").concat(power, " + {").concat(randomOption2(difference), "}}");
         } else {
           var _power2 = "^{".concat(ceilLog, "}");
 
@@ -11524,7 +11551,7 @@ $(document).ready(function () {
           }
 
           var _difference = diff2;
-          return "".concat(randomOption1(randNum)).concat(_power2, " - {").concat(randomOption2(_difference), "}");
+          return "{ \\left({".concat(randomOption1(randNum), "}\\right) ").concat(_power2, " - {").concat(randomOption2(_difference), "}}");
         } // }
 
       } // Generate the smallest possible breakdown in exponent
@@ -11594,36 +11621,106 @@ $(document).ready(function () {
         return minExp(n);
       }
 
-      if (randomValue < 25 && n < 10) {
-        // Represent (small) numbers using their square and square root
-        var square = Math.pow(n, 2);
-        return "{\\sqrt{".concat(randomOption1(square), "}}");
+      var randomValue = Math.random(); // ab = (a - c)(b + c) + c (b - a + c), where c is any random positive number
+
+      if (n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
+        var factors = getFactors(parseInt(n));
+        var randomIndex = Math.floor(Math.random() * factors.length);
+        var a = factors[randomIndex];
+        var b = n / a;
+        var c = Math.floor(Math.random() * 30) + 1; // ab
+
+        if (Math.random() < 0.2) {
+          return "{{\\left({".concat(randomOption1(a), "}\\right)}{\\left({").concat(randomOption2(b), "}\\right)}}");
+        } // (a - c)(b + c) + c (b - a + c)
+        else {
+          return "{ \\left({".concat(randomOption1(a), " - ").concat(randomOption2(c), "}\\right) \\left({").concat(randomOption3(b), " + ").concat(moreRandomOptions(c), "}\\right) + {").concat(moreRandomOptions(c), "}{\\left({").concat(moreRandomOptions(b), " - ").concat(moreRandomOptions(a), " + ").concat(moreRandomOptions(c), "} \\right)} }");
+        }
+      } // n = (d + 1)^2 - d^2 = 2d + 1 , where d = Math.floor(n/2)
+
+
+      if (n > 2 && isOdd(n) && randomValue < 0.45) {
+        var d = Math.floor(n / 2);
+
+        if (Math.random() < 0.5) {
+          return "{".concat(randomOption1(2), " \\left({").concat(randomOption2(d), "}\\right) + ").concat(randomOption3(1), "}");
+        } else {
+          return "{\\left({".concat(randomOption1(d), " + ").concat(randomOption2(1), "}\\right)^2 - \\left({").concat(randomOption3(d), "}\\right)^2}");
+        }
+      } // The sum of the first n odd numbers is equal to n^2 e.g 1 + 3 + 5 = 3^2
+      else if (n > 1 && isSquare(n) && randomValue < 0.6) {
+        var squareroot = Math.sqrt(n);
+        var sum = "".concat(randomOption1(1));
+        var oddVal = 1;
+
+        if (Math.random() < 0.2) {
+          for (var i = 0; i < squareroot - 1; i++) {
+            var randIndex = Math.floor(Math.random() * possible_options.length);
+            var randomOption = possible_options[randIndex];
+            oddVal += 2;
+            sum += "+ ".concat(randomOption(oddVal));
+          }
+
+          sum = "{ ".concat(sum, " }");
+          return sum;
+        } // (a + b)^2 = a^2 + 2ab + b^2
+        else {
+          var _a = Math.floor(Math.random() * squareroot - 1) + 1;
+
+          var _b = squareroot - _a; // Representing (a + b)^2
+
+
+          if (Math.random() < 0.5) {
+            return "{ {\\left(".concat(randomOption1(_a), " + ").concat(randomOption2(_b), "\\right)}^2}");
+          } // Representing a^2 + 2ab + b^2
+          else {
+            return "{ {\\left(".concat(randomOption1(_a), "\\right)}^2 + {").concat(moreRandomOptions(2), "}{\\left(").concat(randomOption2(_a), "\\right)}{\\left(").concat(randomOption3(_b), "\\right)} + {\\left(").concat(moreRandomOptions(_b), "\\right)}^2}");
+          }
+        }
+      } // The sum of two consecutive integers is the difference of their squares e.g 3 + 2 = 3^2 - 2^2
+      else if (isOdd(n) && randomValue < 0.7) {
+        var _a2 = Math.floor(n / 2);
+
+        var _b2 = n - _a2;
+
+        if (n < 22) {
+          return "{".concat(randomOption1(Math.pow(_b2, 2)), " - ").concat(randomOption2(Math.pow(_a2, 2)), "}");
+        } else {
+          return "{ \\left({".concat(randomOption1(_b2), "}\\right)^2 -  \\left({").concat(randomOption2(_a2), "}\\right)^2}");
+        }
       } // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
-      else if (randomValue < 50 && isOdd(n) && n < 10) {
-        var a = n;
-        var a_square = Math.pow(a, 2);
+      else if (randomValue < 0.8 && isOdd(n) && n < 10) {
+        var _a3 = n;
+        var a_square = Math.pow(_a3, 2);
         var position = (a_square + 1) / 2; // Find sum of previous position - 1 terms
 
         var b_square = 0;
         var odd = -1;
 
-        for (var i = 1; i < position; i++) {
+        for (var _i2 = 1; _i2 < position; _i2++) {
           odd += 2;
           b_square += odd;
         }
 
-        var b = Math.sqrt(b_square);
+        var _b3 = Math.sqrt(b_square);
+
         var c_square = odd + 2 + b_square;
-        var c = Math.sqrt(c_square);
-        return "{\\sqrt{\\left({".concat(randomOption1(c), "}\\right)^2 - \\left({").concat(randomOption2(b), "}\\right)^2}}");
+
+        var _c = Math.sqrt(c_square);
+
+        return "{\\sqrt{\\left({".concat(randomOption1(_c), "}\\right)^2 - \\left({").concat(randomOption2(_b3), "}\\right)^2}}");
+      } // Represent (small) numbers using their square and square root
+      else if (randomValue < 0.85 && n < 10) {
+        var square = Math.pow(n, 2);
+        return "{\\sqrt{".concat(randomOption1(square), "}}");
       } // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
-      else if (randomValue < 70) {
+      else if (randomValue < 0.93) {
         var randNum = Math.floor(Math.random() * n + 1) + 1;
         var r = n % randNum;
 
-        var _a = Math.floor(n / randNum);
+        var _a4 = Math.floor(n / randNum);
 
-        return "".concat(randomOption1(_a), " \\times {").concat(randomOption2(randNum), "} + ").concat(randomOption3(r)); // Multiply and divide by a random number. e.g 2 = (2*5)/5
+        return "".concat(randomOption1(_a4), " \\times {").concat(randomOption2(randNum), "} + ").concat(randomOption3(r)); // Multiply and divide by a random number. e.g 2 = (2*5)/5
       } else {
         var _r2 = Math.floor(Math.random() * 5) + 1;
 
@@ -11693,7 +11790,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33075" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35871" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
