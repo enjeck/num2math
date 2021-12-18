@@ -47,7 +47,7 @@
   }
   #output {
 	font-size: 120%;
-	margin-top: 0.75em;
+	margin-top: 0.35em;
 	border: 1px solid grey;
 	padding: 0.25em;
 	min-height: 2em;
@@ -56,11 +56,9 @@
   #output > pre {
 	margin-left: 5px;
   }
-  .left {
-	float: left;
-  }
-  .right {
-	float: right;
+  .lr {
+	  display: flex;
+	  justify-content: space-between;
   }
   #mobile-notice {
 	  padding: 20px;
@@ -92,6 +90,12 @@
 	  color: brown;
 	  cursor: pointer;
 	  display: none;
+  }
+
+  .options {
+	  display: flex;
+	  flex-wrap: wrap;
+	  margin-top: 20px;
   }
 
   .tips h4 {

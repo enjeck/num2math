@@ -88,6 +88,7 @@
           required
         />
         <br />
+        <div class="lr">
         <div class="left">
           <input type="checkbox" id="display" checked />
           <label for="display">Display style</label>
@@ -95,8 +96,38 @@
         <div class="right">
           <input type="submit" value="Generate" id="render" name="submit" />
         </div>
+      </div>
+
+
       </form>
-      <br clear="all" />
+
+      <div class="options">
+        <div>
+        <input type="checkbox" id="gamma-function" name="gamma-function" value="gamma-function" checked>
+        <label for="gamma-function"> Gamma function </label>
+      </div>
+      <div>
+        <input type="checkbox" id="eulers-identity" name="eulers-identity" value="eulers-identity" checked>
+        <label for="eulers-identity"> Euler's identity </label>
+      </div>
+      <div>
+        <input type="checkbox" id="limits-exponential" name="limits-exponential" value="limits-exponential" checked>
+        <label for="limits-exponential"> Exponential Limits </label>
+      </div>
+      <div>
+        <input type="checkbox" id="limits-polynomial" name="limits-polynomial" value="limits-polynomial" checked>
+        <label for="limits-polynomial"> Polynomial Limits </label>
+      </div>
+      <div>
+        <input type="checkbox" id="trig" name="trig" value="trig" checked>
+        <label for="trig"> Trig Identity </label>
+      </div>
+      <div>
+        <input type="checkbox" id="geometric-series" name="geometric-series" value="geometric-series" checked>
+        <label for="geometric-series"> Geometric Series </label>
+      </div>
+    </div>
+
       <div id="output"></div>
       <button id="download-img">Download as PNG</button>
       <div class="tips">
@@ -108,7 +139,7 @@
           </li>
           <li>
             Right click (or long press if on a mobile device) on an equation to
-            copy as LaTeX.
+            copy the TeX commands or MathML code.
           </li>
         </ul>
       </div>

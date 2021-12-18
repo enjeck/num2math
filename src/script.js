@@ -23,8 +23,21 @@ $(document).ready(function () {
       return;
     }
 
-    /* helper functions */
+    // Checkboxes
 
+    let gammaFuncCheckBox = document.getElementById("gamma-function").checked;
+    let eulersIdentityCheckBox =
+      document.getElementById("eulers-identity").checked;
+    let limitExponentialCheckBox =
+      document.getElementById("limits-exponential").checked;
+    let limitPolynomialCheckBox =
+      document.getElementById("limits-polynomial").checked;
+    let trigCheckBox =
+      document.getElementById("trig").checked;
+    let geometricSeriesCheckBox =
+      document.getElementById("geometric-series").checked;
+
+    /* helper functions */
     function isOdd(n) {
       return n % 2 !== 0;
     }
@@ -75,7 +88,7 @@ $(document).ready(function () {
 
     // Representing factorial values using the Gamma function or Pi Product notation
     function factorial(n) {
-      if (Math.random() < 0.5) {
+      if (Math.random() < 0.5 && gammaFuncCheckBox) {
         // Using the Gamma function. That is, Gamma(n) = (n-1)!
         return `{\\Gamma (${n + 1})}`;
       } else {
@@ -86,20 +99,36 @@ $(document).ready(function () {
 
     // List of functions that generate LaTeX math expressions
     // Functions are chosen randomly
-    let possible_options = [
-      lim_diff_two_squares,
-      eulers_identity,
-      infinite_geometric_series,
-      limit_polynomial,
-      limit_exponential,
-      limit_natural_log,
-      trig_identity,
-    ];
+    let possible_options = [];
+
+    if (eulersIdentityCheckBox) {
+      possible_options.push(eulers_identity);
+    }
+    if (limitExponentialCheckBox) {
+      possible_options.push(limit_natural_log);
+      possible_options.push(limit_exponential);
+    }
+    if (limitPolynomialCheckBox) {
+      possible_options.push(lim_diff_two_squares);
+      possible_options.push(limit_polynomial);
+    }
+    if (trigCheckBox) {
+      possible_options.push(trig_identity);
+    }
+
+    if (geometricSeriesCheckBox) {
+      possible_options.push(infinite_geometric_series);
+    }
+
+    // If all options are unchecked, simply return the original number
+    function same_number(n) {
+      return n;
+    }
 
     /* Using the difference of two squares in limits */
     function lim_diff_two_squares(n) {
       let fac = isFactorial(n);
-      if (fac) {
+      if (fac && Math.random() < 0.5) {
         return factorial(fac);
       }
       let r = Math.floor(Math.random() * 10) + 1;
@@ -140,7 +169,7 @@ $(document).ready(function () {
     // Limits of polynomial functions
     function limit_polynomial(n) {
       let fac = isFactorial(n);
-      if (fac) {
+      if (fac && Math.random() < 0.5) {
         return factorial(fac);
       }
 
@@ -203,7 +232,7 @@ $(document).ready(function () {
     function eulers_identity(n) {
       // If number can be expressed as a factorial, prefer this instead of Euler's identity
       let fac = isFactorial(n);
-      if (fac) {
+      if (fac && Math.random() < 0.5) {
         return factorial(fac);
       }
       // e.g −6e^(pi*i)=6
@@ -218,7 +247,7 @@ $(document).ready(function () {
     function infinite_geometric_series(n) {
       // If number can be expressed as a factorial, prefer this instead of the inifinite geometric series expression
       let fac = isFactorial(n);
-      if (fac) {
+      if (fac && Math.random() < 0.5) {
         return factorial(fac);
       }
 
@@ -244,15 +273,25 @@ $(document).ready(function () {
 
     // Using the trig identity (cos^2)x + (sin^2)x = 1
     function trig_identity(n) {
-      let options_for_trig = [
-        lim_diff_two_squares,
-        eulers_identity,
-        infinite_geometric_series,
-        limit_polynomial,
-        limit_exponential,
-      ];
+      // Select options for trig based on checked options, excluding some cases
+      let options_for_trig = [...possible_options];
+      const index1 = options_for_trig.indexOf(limit_natural_log);
+      if (index1 > -1) {
+        options_for_trig.splice(index1, 1);
+      }
+      const index2 = options_for_trig.indexOf(trig_identity);
+      if (index2 > -1) {
+        options_for_trig.splice(index2, 1);
+      }
+
+      let randOption;
+
       let randIndex = Math.floor(Math.random() * options_for_trig.length);
-      let randOption = options_for_trig[randIndex];
+      randOption = options_for_trig[randIndex];
+
+      if (options_for_trig.length < 1) {
+        randOption = same_number
+      }
       if (n > 0) {
         let randomValue = Math.random();
         if (randomValue < 0.25) {
@@ -275,27 +314,41 @@ $(document).ready(function () {
 
     // Break a number down into smaller numbers separated by operators
     function decompose(n) {
-      // Select three posibble options.
-      // Delete option from the list after it's used to avoid using same thing more than once.
-      let randIndex1 = Math.floor(Math.random() * possible_options.length);
-      let randomOption1 = possible_options[randIndex1];
-      let possible_options2 = [...possible_options];
-      if (randIndex1 > -1) {
-        possible_options2.splice(randIndex1, 1);
-      }
-      let randIndex2 = Math.floor(Math.random() * possible_options2.length);
-      let randomOption2 = possible_options2[randIndex2];
-      let possible_options3 = [...possible_options2];
-      if (randIndex2 > -1) {
-        possible_options3.splice(randIndex2, 1);
-      }
-      let randIndex3 = Math.floor(Math.random() * possible_options3.length);
-      let randomOption3 = possible_options3[randIndex3];
-
+      // Randomly select options
       function moreRandomOptions(num) {
-        return possible_options3[
-          Math.floor(Math.random() * possible_options3.length)
+        return possible_options[
+          Math.floor(Math.random() * possible_options.length)
         ](num);
+      }
+
+      if (possible_options.length < 1) {
+        randomOption1 = same_number;
+        randomOption2 = same_number;
+        randomOption3 = same_number;
+        moreRandomOptions = same_number;
+      }
+
+      let randomOption1 = moreRandomOptions;
+      let randomOption2 = moreRandomOptions;
+      let randomOption3 = moreRandomOptions;
+
+      if (possible_options.length >= 3) {
+        // Select three possible options.
+        // Delete option from the list after it's used to avoid using same thing more than once.
+        let randIndex1 = Math.floor(Math.random() * possible_options.length);
+        randomOption1 = possible_options[randIndex1];
+        let possible_options2 = [...possible_options];
+        if (randIndex1 > -1) {
+          possible_options2.splice(randIndex1, 1);
+        }
+        let randIndex2 = Math.floor(Math.random() * possible_options2.length);
+        randomOption2 = possible_options2[randIndex2];
+        let possible_options3 = [...possible_options2];
+        if (randIndex2 > -1) {
+          possible_options3.splice(randIndex2, 1);
+        }
+        let randIndex3 = Math.floor(Math.random() * possible_options3.length);
+        randomOption3 = possible_options3[randIndex3];
       }
 
       // Another function to break numbers down into smaller numbers, expressed using exponent
@@ -419,7 +472,7 @@ $(document).ready(function () {
       }
 
       // n = (d + 1)^2 - d^2 = 2d + 1 , where d = Math.floor(n/2)
-      if (n > 2 && isOdd(n) && randomValue < 0.45) {
+      if (n > 2 && isOdd(n) && randomValue < 0.40) {
         let d = Math.floor(n / 2);
         if (Math.random() < 0.5) {
           return `{${randomOption1(2)} \\left({${randomOption2(
@@ -430,6 +483,12 @@ $(document).ready(function () {
             1
           )}}\\right)^2 - \\left({${randomOption3(d)}}\\right)^2}`;
         }
+      }
+
+      // Represent (small) numbers using their square and square root
+      else if (randomValue < 0.55 && n < 10) {
+        let square = n ** 2;
+        return `{\\sqrt{${randomOption1(square)}}}`;
       }
 
       // The sum of the first n odd numbers is equal to n^2 e.g 1 + 3 + 5 = 3^2
@@ -505,16 +564,10 @@ $(document).ready(function () {
         return `{\\sqrt{\\left({${randomOption1(
           c
         )}}\\right)^2 - \\left({${randomOption2(b)}}\\right)^2}}`;
-      } 
-      
-      // Represent (small) numbers using their square and square root
-      else if (randomValue < 0.85 && n < 10) {
-        let square = n ** 2;
-        return `{\\sqrt{${randomOption1(square)}}}`;
       }
 
       // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
-      else if (randomValue < 0.93) {
+      else if (randomValue < 0.90) {
         let randNum = Math.floor(Math.random() * n + 1) + 1;
         let r = n % randNum;
         let a = Math.floor(n / randNum);
