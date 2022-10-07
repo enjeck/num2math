@@ -445,7 +445,7 @@ $(document).ready(function () {
       let randomValue = Math.random();
 
       // ab = (a - c)(b + c) + c (b - a + c), where c is any random positive number
-      if (n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
+      if (parseInt(n) !== 0 && n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
         let factors = getFactors(parseInt(n));
         let randomIndex = Math.floor(Math.random() * factors.length);
         let a = factors[randomIndex];
