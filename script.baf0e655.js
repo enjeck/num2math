@@ -120,22 +120,21 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
-var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
 
 var cachedSetTimeout;
 var cachedClearTimeout;
-
 function defaultSetTimout() {
   throw new Error('setTimeout has not been defined');
 }
-
 function defaultClearTimeout() {
   throw new Error('clearTimeout has not been defined');
 }
-
 (function () {
   try {
     if (typeof setTimeout === 'function') {
@@ -146,7 +145,6 @@ function defaultClearTimeout() {
   } catch (e) {
     cachedSetTimeout = defaultSetTimout;
   }
-
   try {
     if (typeof clearTimeout === 'function') {
       cachedClearTimeout = clearTimeout;
@@ -157,19 +155,16 @@ function defaultClearTimeout() {
     cachedClearTimeout = defaultClearTimeout;
   }
 })();
-
 function runTimeout(fun) {
   if (cachedSetTimeout === setTimeout) {
     //normal enviroments in sane situations
     return setTimeout(fun, 0);
-  } // if setTimeout wasn't available but was latter defined
-
-
+  }
+  // if setTimeout wasn't available but was latter defined
   if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
     cachedSetTimeout = setTimeout;
     return setTimeout(fun, 0);
   }
-
   try {
     // when when somebody has screwed with setTimeout but no I.E. maddness
     return cachedSetTimeout(fun, 0);
@@ -183,19 +178,16 @@ function runTimeout(fun) {
     }
   }
 }
-
 function runClearTimeout(marker) {
   if (cachedClearTimeout === clearTimeout) {
     //normal enviroments in sane situations
     return clearTimeout(marker);
-  } // if clearTimeout wasn't available but was latter defined
-
-
+  }
+  // if clearTimeout wasn't available but was latter defined
   if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
     cachedClearTimeout = clearTimeout;
     return clearTimeout(marker);
   }
-
   try {
     // when when somebody has screwed with setTimeout but no I.E. maddness
     return cachedClearTimeout(marker);
@@ -210,93 +202,73 @@ function runClearTimeout(marker) {
     }
   }
 }
-
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
-
 function cleanUpNextTick() {
   if (!draining || !currentQueue) {
     return;
   }
-
   draining = false;
-
   if (currentQueue.length) {
     queue = currentQueue.concat(queue);
   } else {
     queueIndex = -1;
   }
-
   if (queue.length) {
     drainQueue();
   }
 }
-
 function drainQueue() {
   if (draining) {
     return;
   }
-
   var timeout = runTimeout(cleanUpNextTick);
   draining = true;
   var len = queue.length;
-
   while (len) {
     currentQueue = queue;
     queue = [];
-
     while (++queueIndex < len) {
       if (currentQueue) {
         currentQueue[queueIndex].run();
       }
     }
-
     queueIndex = -1;
     len = queue.length;
   }
-
   currentQueue = null;
   draining = false;
   runClearTimeout(timeout);
 }
-
 process.nextTick = function (fun) {
   var args = new Array(arguments.length - 1);
-
   if (arguments.length > 1) {
     for (var i = 1; i < arguments.length; i++) {
       args[i - 1] = arguments[i];
     }
   }
-
   queue.push(new Item(fun, args));
-
   if (queue.length === 1 && !draining) {
     runTimeout(drainQueue);
   }
-}; // v8 likes predictible objects
+};
 
-
+// v8 likes predictible objects
 function Item(fun, array) {
   this.fun = fun;
   this.array = array;
 }
-
 Item.prototype.run = function () {
   this.fun.apply(null, this.array);
 };
-
 process.title = 'browser';
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
-
 process.versions = {};
-
 function noop() {}
-
 process.on = noop;
 process.addListener = noop;
 process.once = noop;
@@ -306,23 +278,18 @@ process.removeAllListeners = noop;
 process.emit = noop;
 process.prependListener = noop;
 process.prependOnceListener = noop;
-
 process.listeners = function (name) {
   return [];
 };
-
 process.binding = function (name) {
   throw new Error('process.binding is not supported');
 };
-
 process.cwd = function () {
   return '/';
 };
-
 process.chdir = function (dir) {
   throw new Error('process.chdir is not supported');
 };
-
 process.umask = function () {
   return 0;
 };
@@ -11216,45 +11183,35 @@ return jQuery;
 "use strict";
 
 var _jquery = _interopRequireDefault(require("jquery"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 var $ = _jquery.default.noConflict();
-
 $(document).ready(function () {
   var form = document.getElementById("form");
-
   function handleForm(event) {
     event.preventDefault();
     convert();
   }
-
   form.addEventListener("submit", handleForm);
   $("#display").on("change", convert);
   $(".close ").click(function () {
     $("#mobile-notice").hide();
   });
-
   function convert() {
     //  Get the number input
-    var number = document.getElementById("input").value; // Validating input
+    var number = document.getElementById("input").value;
 
+    // Validating input
     if (isNaN(number) || number === "" || number > 1000 || number < 0) {
       return;
-    } // Checkboxes
+    }
 
+    // Checkboxes
 
     var gammaFuncCheckBox = document.getElementById("gamma-function").checked;
     var eulersIdentityCheckBox = document.getElementById("eulers-identity").checked;
@@ -11262,23 +11219,18 @@ $(document).ready(function () {
     var limitPolynomialCheckBox = document.getElementById("limits-polynomial").checked;
     var trigCheckBox = document.getElementById("trig").checked;
     var geometricSeriesCheckBox = document.getElementById("geometric-series").checked;
-    /* helper functions */
 
+    /* helper functions */
     function isOdd(n) {
       return n % 2 !== 0;
     }
-
     function isSquare(n) {
       return Number.isInteger(Math.sqrt(n));
     }
-
     function isPrime(n) {
       if (n <= 1) return false; // handling negatives
-
       if (n % 2 == 0 && n > 2) return false; // handling even numbers
-
       var s = Math.sqrt(n); // store the square to loop faster
-
       for (var i = 3; i <= s; i += 2) {
         // start from 3, stop at the square, increment in twos
         if (n % i === 0) return false; // modulo shows a divisor was found
@@ -11286,44 +11238,38 @@ $(document).ready(function () {
 
       return true;
     }
-
     function getFactors(n) {
       return _toConsumableArray(Array(n + 1).keys()).filter(function (i) {
         return n % i === 0;
       });
-    } // Checking if a number can be formed using factorial
+    }
 
-
+    // Checking if a number can be formed using factorial
     function isFactorial(n) {
       switch (n) {
         case 2:
           return 2;
           break;
-
         case 6:
           return 3;
           break;
-
         case 24:
           return 4;
           break;
-
         case 120:
           return 5;
           break;
-
         case 720:
           return 6;
           break;
-
         default:
           return false;
       }
     }
+
     /* Need to add another slash to latex strings to prevent slash escape */
+
     // Representing factorial values using the Gamma function or Pi Product notation
-
-
     function factorial(n) {
       if (Math.random() < 0.5 && gammaFuncCheckBox) {
         // Using the Gamma function. That is, Gamma(n) = (n-1)!
@@ -11332,60 +11278,50 @@ $(document).ready(function () {
         // Using the pi product notation of factorial
         return "{\\prod_{k=1}^{".concat(n, "} k}");
       }
-    } // List of functions that generate LaTeX math expressions
+    }
+
+    // List of functions that generate LaTeX math expressions
     // Functions are chosen randomly
-
-
     var possible_options = [];
-
     if (eulersIdentityCheckBox) {
       possible_options.push(eulers_identity);
     }
-
     if (limitExponentialCheckBox) {
       possible_options.push(limit_natural_log);
       possible_options.push(limit_exponential);
     }
-
     if (limitPolynomialCheckBox) {
       possible_options.push(lim_diff_two_squares);
       possible_options.push(limit_polynomial);
     }
-
     if (trigCheckBox) {
       possible_options.push(trig_identity);
     }
-
     if (geometricSeriesCheckBox) {
       possible_options.push(infinite_geometric_series);
-    } // If all options are unchecked, simply return the original number
+    }
 
-
+    // If all options are unchecked, simply return the original number
     function same_number(n) {
       return n;
     }
+
     /* Using the difference of two squares in limits */
-
-
     function lim_diff_two_squares(n) {
       var fac = isFactorial(n);
-
       if (fac && Math.random() < 0.5) {
         return factorial(fac);
       }
-
       var r = Math.floor(Math.random() * 10) + 1;
-
       if (Math.random() < 0.5) {
         var tex = "{\\lim_{x \\to ".concat(n - r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x - ").concat(r, "}}}").trim();
       } else {
         var tex = "{\\lim_{x \\to ".concat(n + r, "} {{x^2 - ").concat(Math.pow(r, 2), "} \\over {x + ").concat(r, "}}}").trim();
       }
-
       return tex;
-    } // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
+    }
 
-
+    // Limits of natural log functions: https://en.wikipedia.org/wiki/List_of_limits#Natural_logarithms
     function limit_natural_log(n) {
       if (n === 0) {
         return "{\\lim_{x \\to \\infty}{ \\ln(x) \\over {x} }}";
@@ -11394,9 +11330,9 @@ $(document).ready(function () {
       } else {
         return "{\\lim_{x \\to 0}{ {-\\ln(1 + ".concat(n, "(e^{-x} - 1))} \\over {x} }}");
       }
-    } // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
+    }
 
-
+    // Limits of exponential functions: https://en.wikipedia.org/wiki/List_of_limits#Sums,_products_and_composites
     function limit_exponential(n) {
       if (n === 0) {
         return "{\\lim_{x \\to \\infty}{xe^{-x}}}";
@@ -11405,100 +11341,94 @@ $(document).ready(function () {
       } else {
         return "{\\lim_{x \\to 0}{ {e^{".concat(n, "x} - 1} \\over {x} }}");
       }
-    } // Limits of polynomial functions
+    }
 
-
+    // Limits of polynomial functions
     function limit_polynomial(n) {
       var fac = isFactorial(n);
-
       if (fac && Math.random() < 0.5) {
         return factorial(fac);
-      } // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xa
+      }
 
-
+      // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xa
       if (n === 0) {
         var r = Math.floor(Math.random() * 20);
         return "{\\lim_{x \\to \\infty}{".concat(r, "x^{-1}}}");
-      } // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xg(x)
+      }
+
+      // https://en.wikipedia.org/wiki/List_of_limits#Functions_of_the_form_xg(x)
       else if (n === 1) {
         var _r = Math.floor(Math.random() * 20);
-
         return "{\\lim_{x \\to \\infty}{x^{1/x}}}";
       } else {
         // Get random multiplier greater than 1
-        var m = Math.floor(Math.random() * 5) + 1; // Choose a random highest power. This determines the final solution of the limit
-
+        var m = Math.floor(Math.random() * 5) + 1;
+        // Choose a random highest power. This determines the final solution of the limit
         var highest_power = Math.floor(Math.random() * 3) + 2;
         var numerator_length = Math.floor(Math.random() * highest_power - 1) + 1;
         var denominator_length = Math.floor(Math.random() * highest_power - 1) + 1;
         var signs = ["-", "+"];
         var numerator = "".concat(m * n, "x^{").concat(highest_power, "} ");
-        var denominator = "".concat(m, "x^{").concat(highest_power, "} "); // Generate a polynomial numerator with random length and coefficients
-
+        var denominator = "".concat(m, "x^{").concat(highest_power, "} ");
+        // Generate a polynomial numerator with random length and coefficients
         for (var i = numerator_length; i > 0; i--) {
           var coef = Math.floor(Math.random() * 10) + 2;
           var power = "^{".concat(i, "}");
-
           if (i < 2) {
             // Do not show powers of value 1
             power = "";
           }
-
           numerator += "".concat(signs[Math.floor(Math.random() * 2)], " ").concat(coef, "x").concat(power, " ");
-        } // Generate a polynomial denominator with random length and coefficients
+        }
 
-
+        // Generate a polynomial denominator with random length and coefficients
         for (var _i = denominator_length; _i > 0; _i--) {
           var _coef = Math.floor(Math.random() * 10) + 2;
-
           var _power = "^{".concat(_i, "}");
-
           if (_i < 2) {
             // Do not show powers of value 1
             _power = "";
           }
-
           denominator += "".concat(signs[Math.floor(Math.random() * 2)], " ").concat(_coef, "x").concat(_power, " ");
-        } // Surround everything with curly braces so that they're treated as one
+        }
 
-
+        // Surround everything with curly braces so that they're treated as one
         numerator = "{ ".concat(numerator, " }");
         denominator = "{ ".concat(denominator, " }");
         return "{\\lim_{x \\to \\infty}{".concat(numerator, " \\over {").concat(denominator, "}}}");
       }
-    } // Using euler's identity. That is, e^(pi*i) = -1
+    }
 
-
+    // Using euler's identity. That is, e^(pi*i) = -1
     function eulers_identity(n) {
       // If number can be expressed as a factorial, prefer this instead of Euler's identity
       var fac = isFactorial(n);
-
       if (fac && Math.random() < 0.5) {
         return factorial(fac);
-      } // e.g −6e^(pi*i)=6
-
-
+      }
+      // e.g −6e^(pi*i)=6
       if (n != 0) {
         return "{-".concat(n, "e^{\\pi i}}");
       } else {
         return "{(e^{\\pi i} + 1)}";
       }
-    } // Infinite geometric series that evaluates to a finite value
+    }
 
-
+    // Infinite geometric series that evaluates to a finite value
     function infinite_geometric_series(n) {
       // If number can be expressed as a factorial, prefer this instead of the inifinite geometric series expression
       var fac = isFactorial(n);
-
       if (fac && Math.random() < 0.5) {
         return factorial(fac);
-      } // https://en.wikipedia.org/wiki/List_of_mathematical_series#Trigonometric_functions
+      }
 
-
+      // https://en.wikipedia.org/wiki/List_of_mathematical_series#Trigonometric_functions
       if (n === 0) {
         var r = Math.floor(Math.random() * 10) + 3;
         return "{\\sum\\limits_{k=0}^{".concat(r - 1, "} {\\sin \\left({ {2 \\pi k} \\over {").concat(r, "} } \\right)}}");
-      } // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
+      }
+
+      // Using the Riemann zeta function: https://en.wikipedia.org/wiki/Particular_values_of_the_Riemann_zeta_function#The_Riemann_zeta_function_at_0_and_1
       else if (n === 1) {
         return "{\\lim_{\\epsilon \\to 0}{ \\epsilon \\zeta(1 + \\epsilon) }}";
       } else {
@@ -11506,35 +11436,28 @@ $(document).ready(function () {
         // Decimal can be represented as fraction too. e.g (0.25)^i = (1/4)^i = 4^-i
         return "{\\sum\\limits_{k=0}^\\infty {\\left({".concat(n - 1, " \\over {").concat(n, "}}\\right)^{k}}}");
       }
-    } // Using the trig identity (cos^2)x + (sin^2)x = 1
+    }
 
-
+    // Using the trig identity (cos^2)x + (sin^2)x = 1
     function trig_identity(n) {
       // Select options for trig based on checked options, excluding some cases
       var options_for_trig = [].concat(possible_options);
       var index1 = options_for_trig.indexOf(limit_natural_log);
-
       if (index1 > -1) {
         options_for_trig.splice(index1, 1);
       }
-
       var index2 = options_for_trig.indexOf(trig_identity);
-
       if (index2 > -1) {
         options_for_trig.splice(index2, 1);
       }
-
       var randOption;
       var randIndex = Math.floor(Math.random() * options_for_trig.length);
       randOption = options_for_trig[randIndex];
-
       if (options_for_trig.length < 1) {
         randOption = same_number;
       }
-
       if (n > 0) {
         var randomValue = Math.random();
-
         if (randomValue < 0.25) {
           return "\\left({".concat(randOption(n), " \\over {(\\cos^2x + \\sin^2x)}}\\right)");
         } else if (randomValue < 0.5) {
@@ -11545,51 +11468,43 @@ $(document).ready(function () {
       } else {
         return "\\left({".concat(randOption(n + 1), " - (\\cos^2x + \\sin^2x)}\\right)");
       }
-    } // Break a number down into smaller numbers separated by operators
+    }
 
-
+    // Break a number down into smaller numbers separated by operators
     function decompose(n) {
       // Randomly select options
       function moreRandomOptions(num) {
         return possible_options[Math.floor(Math.random() * possible_options.length)](num);
       }
-
       if (possible_options.length < 1) {
         randomOption1 = same_number;
         randomOption2 = same_number;
         randomOption3 = same_number;
         moreRandomOptions = same_number;
       }
-
       var randomOption1 = moreRandomOptions;
       var randomOption2 = moreRandomOptions;
       var randomOption3 = moreRandomOptions;
-
       if (possible_options.length >= 3) {
         // Select three possible options.
         // Delete option from the list after it's used to avoid using same thing more than once.
         var randIndex1 = Math.floor(Math.random() * possible_options.length);
         randomOption1 = possible_options[randIndex1];
         var possible_options2 = [].concat(possible_options);
-
         if (randIndex1 > -1) {
           possible_options2.splice(randIndex1, 1);
         }
-
         var randIndex2 = Math.floor(Math.random() * possible_options2.length);
         randomOption2 = possible_options2[randIndex2];
-
         var possible_options3 = _toConsumableArray(possible_options2);
-
         if (randIndex2 > -1) {
           possible_options3.splice(randIndex2, 1);
         }
-
         var randIndex3 = Math.floor(Math.random() * possible_options3.length);
         randomOption3 = possible_options3[randIndex3];
-      } // Another function to break numbers down into smaller numbers, expressed using exponent
+      }
 
-
+      // Another function to break numbers down into smaller numbers, expressed using exponent
       function decompose2(n) {
         //if (n > 50) {
         var randNum = Math.floor(Math.random() * 3) + 6;
@@ -11600,31 +11515,26 @@ $(document).ready(function () {
         var exp2 = Math.pow(randNum, ceilLog);
         var diff1 = Math.abs(n - exp1);
         var diff2 = Math.abs(n - exp2);
-
         if (diff1 < diff2) {
           var power = "^{".concat(floorLog, "}");
-
           if (floorLog < 2) {
             power = "";
           }
-
           var difference = diff1;
           return "{ \\left({".concat(randomOption1(randNum), "}\\right)").concat(power, " + {").concat(randomOption2(difference), "}}");
         } else {
           var _power2 = "^{".concat(ceilLog, "}");
-
           if (ceilLog < 2) {
             _power2 = "";
           }
-
           var _difference = diff2;
           return "{ \\left({".concat(randomOption1(randNum), "}\\right) ").concat(_power2, " - {").concat(randomOption2(_difference), "}}");
-        } // }
+        }
+        // }
+      }
 
-      } // Generate the smallest possible breakdown in exponent
+      // Generate the smallest possible breakdown in exponent
       // Ideal for large numbers > 50
-
-
       function minExp(n) {
         var oldDiff, newDiff, exp, exponent;
         var valObj = {};
@@ -11635,7 +11545,6 @@ $(document).ready(function () {
         var exp2 = Math.pow(3, ceilLog);
         var diff1 = Math.abs(n - exp1);
         var diff2 = Math.abs(n - exp2);
-
         if (diff1 < diff2) {
           oldDiff = diff1;
           exp = [exp1, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(floorLog, "}")];
@@ -11645,22 +11554,14 @@ $(document).ready(function () {
           exp = [exp2, "\\left({".concat(randomOption3(3), "}\\right)^{").concat(ceilLog, "}")];
           valObj[oldDiff] = exp;
         }
-
         for (var i = 4; i < 9; i++) {
           var _logValue = Math.log(n) / Math.log(i);
-
           var _floorLog = Math.floor(_logValue);
-
           var _ceilLog = Math.ceil(_logValue);
-
           var _exp = Math.pow(i, _floorLog);
-
           var _exp2 = Math.pow(i, _ceilLog);
-
           var _diff = Math.abs(n - _exp);
-
           var _diff2 = Math.abs(n - _exp2);
-
           if (_diff < _diff2) {
             exp = [_exp, "\\left({".concat(randomOption3(i), "}\\right)^{").concat(_floorLog, "}")];
             newDiff = _diff;
@@ -11670,60 +11571,63 @@ $(document).ready(function () {
             newDiff = _diff2;
             valObj[newDiff] = exp;
           }
-
           newDiff = Math.min(newDiff, oldDiff);
           oldDiff = newDiff;
           exponent = valObj[newDiff];
         }
-
         if (exponent[0] < n) {
           return "".concat(exponent[1], " + \\left({").concat(decompose2(newDiff), "}\\right)");
         } else {
           return "".concat(exponent[1], " - \\left({").concat(decompose2(newDiff), "}\\right)");
         }
-      } // Break down larger numbers using exponents
+      }
 
-
+      // Break down larger numbers using exponents
       if (n > 70) {
         return minExp(n);
       }
+      var randomValue = Math.random();
 
-      var randomValue = Math.random(); // ab = (a - c)(b + c) + c (b - a + c), where c is any random positive number
-
+      // ab = (a - c)(b + c) + c (b - a + c), where c is any random positive number
       if (n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
         var factors = getFactors(parseInt(n));
         var randomIndex = Math.floor(Math.random() * factors.length);
         var a = factors[randomIndex];
         var b = n / a;
-        var c = Math.floor(Math.random() * 30) + 1; // ab
+        var c = Math.floor(Math.random() * 30) + 1;
 
+        // ab
         if (Math.random() < 0.2) {
           return "{{\\left({".concat(randomOption1(a), "}\\right)}{\\left({").concat(randomOption2(b), "}\\right)}}");
-        } // (a - c)(b + c) + c (b - a + c)
+        }
+
+        // (a - c)(b + c) + c (b - a + c)
         else {
           return "{ \\left({".concat(randomOption1(a), " - ").concat(randomOption2(c), "}\\right) \\left({").concat(randomOption3(b), " + ").concat(moreRandomOptions(c), "}\\right) + {").concat(moreRandomOptions(c), "}{\\left({").concat(moreRandomOptions(b), " - ").concat(moreRandomOptions(a), " + ").concat(moreRandomOptions(c), "} \\right)} }");
         }
-      } // n = (d + 1)^2 - d^2 = 2d + 1 , where d = Math.floor(n/2)
+      }
 
-
+      // n = (d + 1)^2 - d^2 = 2d + 1 , where d = Math.floor(n/2)
       if (n > 2 && isOdd(n) && randomValue < 0.40) {
         var d = Math.floor(n / 2);
-
         if (Math.random() < 0.5) {
           return "{".concat(randomOption1(2), " \\left({").concat(randomOption2(d), "}\\right) + ").concat(randomOption3(1), "}");
         } else {
           return "{\\left({".concat(randomOption1(d), " + ").concat(randomOption2(1), "}\\right)^2 - \\left({").concat(randomOption3(d), "}\\right)^2}");
         }
-      } // Represent (small) numbers using their square and square root
+      }
+
+      // Represent (small) numbers using their square and square root
       else if (randomValue < 0.55 && n < 10) {
         var square = Math.pow(n, 2);
         return "{\\sqrt{".concat(randomOption1(square), "}}");
-      } // The sum of the first n odd numbers is equal to n^2 e.g 1 + 3 + 5 = 3^2
+      }
+
+      // The sum of the first n odd numbers is equal to n^2 e.g 1 + 3 + 5 = 3^2
       else if (n > 1 && isSquare(n) && randomValue < 0.6) {
         var squareroot = Math.sqrt(n);
         var sum = "".concat(randomOption1(1));
         var oddVal = 1;
-
         if (Math.random() < 0.2) {
           for (var i = 0; i < squareroot - 1; i++) {
             var randIndex = Math.floor(Math.random() * possible_options.length);
@@ -11731,83 +11635,86 @@ $(document).ready(function () {
             oddVal += 2;
             sum += "+ ".concat(randomOption(oddVal));
           }
-
           sum = "{ ".concat(sum, " }");
           return sum;
-        } // (a + b)^2 = a^2 + 2ab + b^2
+        }
+
+        // (a + b)^2 = a^2 + 2ab + b^2
         else {
           var _a = Math.floor(Math.random() * squareroot - 1) + 1;
+          var _b = squareroot - _a;
 
-          var _b = squareroot - _a; // Representing (a + b)^2
-
-
+          // Representing (a + b)^2
           if (Math.random() < 0.5) {
             return "{ {\\left(".concat(randomOption1(_a), " + ").concat(randomOption2(_b), "\\right)}^2}");
-          } // Representing a^2 + 2ab + b^2
+          }
+
+          // Representing a^2 + 2ab + b^2
           else {
             return "{ {\\left(".concat(randomOption1(_a), "\\right)}^2 + {").concat(moreRandomOptions(2), "}{\\left(").concat(randomOption2(_a), "\\right)}{\\left(").concat(randomOption3(_b), "\\right)} + {\\left(").concat(moreRandomOptions(_b), "\\right)}^2}");
           }
         }
-      } // The sum of two consecutive integers is the difference of their squares e.g 3 + 2 = 3^2 - 2^2
+      }
+
+      // The sum of two consecutive integers is the difference of their squares e.g 3 + 2 = 3^2 - 2^2
       else if (isOdd(n) && randomValue < 0.7) {
         var _a2 = Math.floor(n / 2);
-
         var _b2 = n - _a2;
-
         if (n < 22) {
           return "{".concat(randomOption1(Math.pow(_b2, 2)), " - ").concat(randomOption2(Math.pow(_a2, 2)), "}");
         } else {
           return "{ \\left({".concat(randomOption1(_b2), "}\\right)^2 -  \\left({").concat(randomOption2(_a2), "}\\right)^2}");
         }
-      } // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
+      }
+
+      // Using Fibonacci's method to generate a pythagorean triple: https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Fibonacci's_method
       else if (randomValue < 0.8 && isOdd(n) && n < 10) {
         var _a3 = n;
         var a_square = Math.pow(_a3, 2);
-        var position = (a_square + 1) / 2; // Find sum of previous position - 1 terms
-
+        var position = (a_square + 1) / 2;
+        // Find sum of previous position - 1 terms
         var b_square = 0;
         var odd = -1;
-
         for (var _i2 = 1; _i2 < position; _i2++) {
           odd += 2;
           b_square += odd;
         }
-
         var _b3 = Math.sqrt(b_square);
-
         var c_square = odd + 2 + b_square;
-
         var _c = Math.sqrt(c_square);
-
         return "{\\sqrt{\\left({".concat(randomOption1(_c), "}\\right)^2 - \\left({").concat(randomOption2(_b3), "}\\right)^2}}");
-      } // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
+      }
+
+      // Express a number using multiplication and addition. E.g 4 = 1 * 3 + 1
       else if (randomValue < 0.90) {
         var randNum = Math.floor(Math.random() * n + 1) + 1;
         var r = n % randNum;
-
         var _a4 = Math.floor(n / randNum);
+        return "".concat(randomOption1(_a4), " \\times {").concat(randomOption2(randNum), "} + ").concat(randomOption3(r));
 
-        return "".concat(randomOption1(_a4), " \\times {").concat(randomOption2(randNum), "} + ").concat(randomOption3(r)); // Multiply and divide by a random number. e.g 2 = (2*5)/5
+        // Multiply and divide by a random number. e.g 2 = (2*5)/5
       } else {
         var _r2 = Math.floor(Math.random() * 5) + 1;
-
         return "".concat(randomOption1(n * _r2), " \\over {").concat(randomOption2(_r2), "}");
       }
     }
+    var input = decompose(number);
 
-    var input = decompose(number); //  Disable the display and render buttons until MathJax is done
-
+    //  Disable the display and render buttons until MathJax is done
     var display = document.getElementById("display");
     var button = document.getElementById("render");
     button.disabled = display.disabled = true;
-    var downloadBtn = document.getElementById("download-img"); //  Clear the old output
+    var downloadBtn = document.getElementById("download-img");
+
+    //  Clear the old output
 
     var output = document.getElementById("output");
-    output.innerHTML = ""; //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+    output.innerHTML = "";
+
+    //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
     //  Get the conversion options (metrics and display settings)
     //  Convert the input to CommonHTML output and use a promise to wait for it to be ready
     //    (in case an extension needs to be loaded dynamically).
-
     MathJax.texReset();
     var options = MathJax.getMetricsFor(output);
     options.display = display.checked;
@@ -11817,8 +11724,8 @@ $(document).ready(function () {
       //    content of the new equation.
       output.appendChild(node);
       MathJax.startup.document.clear();
-      MathJax.startup.document.updateDocument(); // Display download button
-
+      MathJax.startup.document.updateDocument();
+      // Display download button
       downloadBtn.style.display = "block";
     }).catch(function (err) {
       //  If there was an error, put the message into the output instead
@@ -11833,7 +11740,6 @@ $(document).ready(function () {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
-
 function Module(moduleName) {
   OldModule.call(this, moduleName);
   this.hot = {
@@ -11849,37 +11755,32 @@ function Module(moduleName) {
   };
   module.bundle.hotData = null;
 }
-
 module.bundle.Module = Module;
 var checkedAssets, assetsToAccept;
 var parent = module.bundle.parent;
-
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45835" + '/');
-
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38617" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
     var data = JSON.parse(event.data);
-
     if (data.type === 'update') {
       var handled = false;
       data.assets.forEach(function (asset) {
         if (!asset.isNew) {
           var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-
           if (didAccept) {
             handled = true;
           }
         }
-      }); // Enable HMR for CSS by default.
+      });
 
+      // Enable HMR for CSS by default.
       handled = handled || data.assets.every(function (asset) {
         return asset.type === 'css' && asset.generated.js;
       });
-
       if (handled) {
         console.clear();
         data.assets.forEach(function (asset) {
@@ -11893,20 +11794,16 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
         location.reload();
       }
     }
-
     if (data.type === 'reload') {
       ws.close();
-
       ws.onclose = function () {
         location.reload();
       };
     }
-
     if (data.type === 'error-resolved') {
       console.log('[parcel] ✨ Error resolved');
       removeErrorOverlay();
     }
-
     if (data.type === 'error') {
       console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
       removeErrorOverlay();
@@ -11915,19 +11812,17 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
     }
   };
 }
-
 function removeErrorOverlay() {
   var overlay = document.getElementById(OVERLAY_ID);
-
   if (overlay) {
     overlay.remove();
   }
 }
-
 function createErrorOverlay(data) {
   var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID; // html encode message and stack trace
+  overlay.id = OVERLAY_ID;
 
+  // html encode message and stack trace
   var message = document.createElement('div');
   var stackTrace = document.createElement('pre');
   message.innerText = data.error.message;
@@ -11935,41 +11830,31 @@ function createErrorOverlay(data) {
   overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
   return overlay;
 }
-
 function getParents(bundle, id) {
   var modules = bundle.modules;
-
   if (!modules) {
     return [];
   }
-
   var parents = [];
   var k, d, dep;
-
   for (k in modules) {
     for (d in modules[k][1]) {
       dep = modules[k][1][d];
-
       if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
         parents.push(k);
       }
     }
   }
-
   if (bundle.parent) {
     parents = parents.concat(getParents(bundle.parent, id));
   }
-
   return parents;
 }
-
 function hmrApply(bundle, asset) {
   var modules = bundle.modules;
-
   if (!modules) {
     return;
   }
-
   if (modules[asset.id] || !bundle.parent) {
     var fn = new Function('require', 'module', 'exports', asset.generated.js);
     asset.isNew = !modules[asset.id];
@@ -11978,58 +11863,45 @@ function hmrApply(bundle, asset) {
     hmrApply(bundle.parent, asset);
   }
 }
-
 function hmrAcceptCheck(bundle, id) {
   var modules = bundle.modules;
-
   if (!modules) {
     return;
   }
-
   if (!modules[id] && bundle.parent) {
     return hmrAcceptCheck(bundle.parent, id);
   }
-
   if (checkedAssets[id]) {
     return;
   }
-
   checkedAssets[id] = true;
   var cached = bundle.cache[id];
   assetsToAccept.push([bundle, id]);
-
   if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
     return true;
   }
-
   return getParents(global.parcelRequire, id).some(function (id) {
     return hmrAcceptCheck(global.parcelRequire, id);
   });
 }
-
 function hmrAcceptRun(bundle, id) {
   var cached = bundle.cache[id];
   bundle.hotData = {};
-
   if (cached) {
     cached.hot.data = bundle.hotData;
   }
-
   if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
     cached.hot._disposeCallbacks.forEach(function (cb) {
       cb(bundle.hotData);
     });
   }
-
   delete bundle.cache[id];
   bundle(id);
   cached = bundle.cache[id];
-
   if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
     cached.hot._acceptCallbacks.forEach(function (cb) {
       cb();
     });
-
     return true;
   }
 }

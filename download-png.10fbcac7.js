@@ -120,22 +120,21 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
-var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
 
 var cachedSetTimeout;
 var cachedClearTimeout;
-
 function defaultSetTimout() {
   throw new Error('setTimeout has not been defined');
 }
-
 function defaultClearTimeout() {
   throw new Error('clearTimeout has not been defined');
 }
-
 (function () {
   try {
     if (typeof setTimeout === 'function') {
@@ -146,7 +145,6 @@ function defaultClearTimeout() {
   } catch (e) {
     cachedSetTimeout = defaultSetTimout;
   }
-
   try {
     if (typeof clearTimeout === 'function') {
       cachedClearTimeout = clearTimeout;
@@ -157,19 +155,16 @@ function defaultClearTimeout() {
     cachedClearTimeout = defaultClearTimeout;
   }
 })();
-
 function runTimeout(fun) {
   if (cachedSetTimeout === setTimeout) {
     //normal enviroments in sane situations
     return setTimeout(fun, 0);
-  } // if setTimeout wasn't available but was latter defined
-
-
+  }
+  // if setTimeout wasn't available but was latter defined
   if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
     cachedSetTimeout = setTimeout;
     return setTimeout(fun, 0);
   }
-
   try {
     // when when somebody has screwed with setTimeout but no I.E. maddness
     return cachedSetTimeout(fun, 0);
@@ -183,19 +178,16 @@ function runTimeout(fun) {
     }
   }
 }
-
 function runClearTimeout(marker) {
   if (cachedClearTimeout === clearTimeout) {
     //normal enviroments in sane situations
     return clearTimeout(marker);
-  } // if clearTimeout wasn't available but was latter defined
-
-
+  }
+  // if clearTimeout wasn't available but was latter defined
   if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
     cachedClearTimeout = clearTimeout;
     return clearTimeout(marker);
   }
-
   try {
     // when when somebody has screwed with setTimeout but no I.E. maddness
     return cachedClearTimeout(marker);
@@ -210,93 +202,73 @@ function runClearTimeout(marker) {
     }
   }
 }
-
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
-
 function cleanUpNextTick() {
   if (!draining || !currentQueue) {
     return;
   }
-
   draining = false;
-
   if (currentQueue.length) {
     queue = currentQueue.concat(queue);
   } else {
     queueIndex = -1;
   }
-
   if (queue.length) {
     drainQueue();
   }
 }
-
 function drainQueue() {
   if (draining) {
     return;
   }
-
   var timeout = runTimeout(cleanUpNextTick);
   draining = true;
   var len = queue.length;
-
   while (len) {
     currentQueue = queue;
     queue = [];
-
     while (++queueIndex < len) {
       if (currentQueue) {
         currentQueue[queueIndex].run();
       }
     }
-
     queueIndex = -1;
     len = queue.length;
   }
-
   currentQueue = null;
   draining = false;
   runClearTimeout(timeout);
 }
-
 process.nextTick = function (fun) {
   var args = new Array(arguments.length - 1);
-
   if (arguments.length > 1) {
     for (var i = 1; i < arguments.length; i++) {
       args[i - 1] = arguments[i];
     }
   }
-
   queue.push(new Item(fun, args));
-
   if (queue.length === 1 && !draining) {
     runTimeout(drainQueue);
   }
-}; // v8 likes predictible objects
+};
 
-
+// v8 likes predictible objects
 function Item(fun, array) {
   this.fun = fun;
   this.array = array;
 }
-
 Item.prototype.run = function () {
   this.fun.apply(null, this.array);
 };
-
 process.title = 'browser';
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
-
 process.versions = {};
-
 function noop() {}
-
 process.on = noop;
 process.addListener = noop;
 process.once = noop;
@@ -306,23 +278,18 @@ process.removeAllListeners = noop;
 process.emit = noop;
 process.prependListener = noop;
 process.prependOnceListener = noop;
-
 process.listeners = function (name) {
   return [];
 };
-
 process.binding = function (name) {
   throw new Error('process.binding is not supported');
 };
-
 process.cwd = function () {
   return '/';
 };
-
 process.chdir = function (dir) {
   throw new Error('process.chdir is not supported');
 };
-
 process.umask = function () {
   return 0;
 };
@@ -11216,16 +11183,14 @@ return jQuery;
 "use strict";
 
 var _jquery = _interopRequireDefault(require("jquery"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var $ = _jquery.default.noConflict();
-
 $(document).ready(function () {
   var downloadBtn = document.getElementById("download-img");
-  downloadBtn.addEventListener("click", downloadPNG); // Initiate download of blob
-
-  function download(filename, // string
+  downloadBtn.addEventListener("click", downloadPNG);
+  // Initiate download of blob
+  function download(filename,
+  // string
   blob // Blob
   ) {
     if (window.navigator.msSaveOrOpenBlob) {
@@ -11238,20 +11203,23 @@ $(document).ready(function () {
       elem.click();
     }
   }
-
   function downloadPNG() {
     // Get the svg from the page
-    var svg = document.querySelector("svg"); // Get the current number
+    var svg = document.querySelector("svg");
 
-    var number = document.getElementById("input").value; // Increase the SVG's width and height to produce a bigger image
+    // Get the current number
+    var number = document.getElementById("input").value;
 
+    // Increase the SVG's width and height to produce a bigger image
     var w = parseInt(svg.getAttribute("width")) * 3;
-    var h = parseInt(svg.getAttribute("height")) * 3; // Clone the svg before changing width and height so that it does not affect the svg on the page
+    var h = parseInt(svg.getAttribute("height")) * 3;
 
+    // Clone the svg before changing width and height so that it does not affect the svg on the page
     svg = svg.cloneNode(true);
     svg.setAttribute("width", "".concat(w, "ex"));
-    svg.setAttribute("height", "".concat(h, "ex")); // Convert SVG to string data
+    svg.setAttribute("height", "".concat(h, "ex"));
 
+    // Convert SVG to string data
     var data = new XMLSerializer().serializeToString(svg);
     var canvas = document.createElement("canvas");
     canvg(canvas, data, {
@@ -11268,7 +11236,6 @@ $(document).ready(function () {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
-
 function Module(moduleName) {
   OldModule.call(this, moduleName);
   this.hot = {
@@ -11284,37 +11251,32 @@ function Module(moduleName) {
   };
   module.bundle.hotData = null;
 }
-
 module.bundle.Module = Module;
 var checkedAssets, assetsToAccept;
 var parent = module.bundle.parent;
-
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45835" + '/');
-
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38617" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
     var data = JSON.parse(event.data);
-
     if (data.type === 'update') {
       var handled = false;
       data.assets.forEach(function (asset) {
         if (!asset.isNew) {
           var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-
           if (didAccept) {
             handled = true;
           }
         }
-      }); // Enable HMR for CSS by default.
+      });
 
+      // Enable HMR for CSS by default.
       handled = handled || data.assets.every(function (asset) {
         return asset.type === 'css' && asset.generated.js;
       });
-
       if (handled) {
         console.clear();
         data.assets.forEach(function (asset) {
@@ -11328,20 +11290,16 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
         location.reload();
       }
     }
-
     if (data.type === 'reload') {
       ws.close();
-
       ws.onclose = function () {
         location.reload();
       };
     }
-
     if (data.type === 'error-resolved') {
       console.log('[parcel] ✨ Error resolved');
       removeErrorOverlay();
     }
-
     if (data.type === 'error') {
       console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
       removeErrorOverlay();
@@ -11350,19 +11308,17 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
     }
   };
 }
-
 function removeErrorOverlay() {
   var overlay = document.getElementById(OVERLAY_ID);
-
   if (overlay) {
     overlay.remove();
   }
 }
-
 function createErrorOverlay(data) {
   var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID; // html encode message and stack trace
+  overlay.id = OVERLAY_ID;
 
+  // html encode message and stack trace
   var message = document.createElement('div');
   var stackTrace = document.createElement('pre');
   message.innerText = data.error.message;
@@ -11370,41 +11326,31 @@ function createErrorOverlay(data) {
   overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
   return overlay;
 }
-
 function getParents(bundle, id) {
   var modules = bundle.modules;
-
   if (!modules) {
     return [];
   }
-
   var parents = [];
   var k, d, dep;
-
   for (k in modules) {
     for (d in modules[k][1]) {
       dep = modules[k][1][d];
-
       if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
         parents.push(k);
       }
     }
   }
-
   if (bundle.parent) {
     parents = parents.concat(getParents(bundle.parent, id));
   }
-
   return parents;
 }
-
 function hmrApply(bundle, asset) {
   var modules = bundle.modules;
-
   if (!modules) {
     return;
   }
-
   if (modules[asset.id] || !bundle.parent) {
     var fn = new Function('require', 'module', 'exports', asset.generated.js);
     asset.isNew = !modules[asset.id];
@@ -11413,58 +11359,45 @@ function hmrApply(bundle, asset) {
     hmrApply(bundle.parent, asset);
   }
 }
-
 function hmrAcceptCheck(bundle, id) {
   var modules = bundle.modules;
-
   if (!modules) {
     return;
   }
-
   if (!modules[id] && bundle.parent) {
     return hmrAcceptCheck(bundle.parent, id);
   }
-
   if (checkedAssets[id]) {
     return;
   }
-
   checkedAssets[id] = true;
   var cached = bundle.cache[id];
   assetsToAccept.push([bundle, id]);
-
   if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
     return true;
   }
-
   return getParents(global.parcelRequire, id).some(function (id) {
     return hmrAcceptCheck(global.parcelRequire, id);
   });
 }
-
 function hmrAcceptRun(bundle, id) {
   var cached = bundle.cache[id];
   bundle.hotData = {};
-
   if (cached) {
     cached.hot.data = bundle.hotData;
   }
-
   if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
     cached.hot._disposeCallbacks.forEach(function (cb) {
       cb(bundle.hotData);
     });
   }
-
   delete bundle.cache[id];
   bundle(id);
   cached = bundle.cache[id];
-
   if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
     cached.hot._acceptCallbacks.forEach(function (cb) {
       cb();
     });
-
     return true;
   }
 }
