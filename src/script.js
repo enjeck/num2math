@@ -292,23 +292,26 @@ $(document).ready(function () {
       if (options_for_trig.length < 1) {
         randOption = same_number
       }
+
+      const a = Math.floor(Math.random() * 51) - 10;
+
       if (n > 0) {
         let randomValue = Math.random();
         if (randomValue < 0.25) {
           return `\\left({${randOption(
             n
-          )} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
+          )} \\over {\\left(\\lim_{{x\\to ${a}}} \\cos^2x + \\sin^2x\\right)}}\\right)`;
         } else if (randomValue < 0.5) {
           return `\\left({${randOption(
             n
-          )} \\times (\\cos^2x + \\sin^2x)}\\right)`;
+          )} \\times \\left(\\lim_{{x\\to ${a}}} \\cos^2x + \\sin^2x\\right)}\\right)`;
         } else {
           return `\\left({${randOption(
             n + 1
-          )} - (\\cos^2x + \\sin^2x)}\\right)`;
+          )} - \\left(\\lim_{{x\\to ${a}}} \\cos^2x + \\sin^2x\\right)}\\right)`;
         }
       } else {
-        return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+        return `\\left({${randOption(n + 1)} - \\left(\\lim_{{x\\to ${a}}} \\cos^2x + \\sin^2x\\right)}\\right)`;
       }
     }
 
