@@ -300,18 +300,18 @@ $(document).ready(function () {
         if (randomValue < 0.25) {
           return `\\left({${randOption(
             n
-          )} \\over {\\lim_{{x\\to ${a}}} \\left(\\cos^2x + \\sin^2x\\right)}}\\right)`;
+          )} \\over {\\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}}\\right)`;
         } else if (randomValue < 0.5) {
           return `\\left({${randOption(
             n
-          )} \\times \\lim_{{x\\to ${a}}} \\left(\\cos^2x + \\sin^2x\\right)}\\right)`;
+          )} \\times \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
         } else {
           return `\\left({${randOption(
             n + 1
-          )} - \\lim_{{x\\to ${a}}} \\left(\\cos^2x + \\sin^2x\\right)}\\right)`;
+          )} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
         }
       } else {
-        return `{${randOption(n + 1)} - \\left(\\lim_{{x\\to ${a}}} \\left(\\cos^2x + \\sin^2x\\right)}\\right)`;
+        return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
       }
     }
 
