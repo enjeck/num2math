@@ -292,23 +292,26 @@ $(document).ready(function () {
       if (options_for_trig.length < 1) {
         randOption = same_number
       }
+
+      const a = Math.floor(Math.random() * 51) - 10;
+
       if (n > 0) {
         let randomValue = Math.random();
         if (randomValue < 0.25) {
           return `\\left({${randOption(
             n
-          )} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
+          )} \\over {\\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}}\\right)`;
         } else if (randomValue < 0.5) {
           return `\\left({${randOption(
             n
-          )} \\times (\\cos^2x + \\sin^2x)}\\right)`;
+          )} \\times \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
         } else {
           return `\\left({${randOption(
             n + 1
-          )} - (\\cos^2x + \\sin^2x)}\\right)`;
+          )} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
         }
       } else {
-        return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+        return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
       }
     }
 
@@ -445,7 +448,7 @@ $(document).ready(function () {
       let randomValue = Math.random();
 
       // ab = (a - c)(b + c) + c (b - a + c), where c is any random positive number
-      if (n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
+      if (parseInt(n) !== 0 && n < 100 && (n == 2 || !isPrime(n)) && randomValue < 0.25) {
         let factors = getFactors(parseInt(n));
         let randomIndex = Math.floor(Math.random() * factors.length);
         let a = factors[randomIndex];
