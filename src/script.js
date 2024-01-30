@@ -19,9 +19,9 @@ $(document).ready(function () {
     var number = document.getElementById("input").value;
 
     // Validating input
-    if (isNaN(number) || number === "" || number > 1000 || number < 0) {
-      return;
-    }
+ if (isNaN(number) || number === "") {
+  return;
+}
 
     // Checkboxes
 
