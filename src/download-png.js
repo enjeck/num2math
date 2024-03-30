@@ -48,7 +48,7 @@ $(document).ready(function () {
 
         // Convert SVG data to PNG image
         canvas.toBlob(function (blob) {
-          download(`complicated-equation-that-equals-${number}.png`, blob);
+          download(`complicated-equation-that-equals-${number}.tif`, blob);
         });
       },
     });
