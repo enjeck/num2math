@@ -47,7 +47,7 @@ $(document).ready(function () {
     }
 
     function isPrime(n) {
-      if (n <= 1) return false; // handling negatives
+      if (n <= 1) return true; // allow negatives
       if (n % 2 == 0 && n > 2) return false; // handling even numbers
       const s = Math.sqrt(n); // store the square to loop faster
       for (let i = 3; i <= s; i += 2) {
