@@ -11183,7 +11183,7 @@ return jQuery;
 "use strict";
 
 var _jquery = _interopRequireDefault(require("jquery"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 var $ = _jquery.default.noConflict();
 $(document).ready(function () {
   var downloadBtn = document.getElementById("download-img");
@@ -11257,7 +11257,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45747" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34541" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

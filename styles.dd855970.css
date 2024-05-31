@@ -6,7 +6,6 @@
 .menu a {
 	padding: 20px;
 	font-weight: bold;
-	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 #frame {
 	max-width: 60em;
@@ -110,6 +109,22 @@
   .tips li {
 	  font-size: 15px;
 	  font-style: italic;
+  }
+
+  .waitlist {
+	margin: auto;
+	padding: 20px;
+	background-color: #eee;
+	margin: 20px 0;
+  }
+
+  .waitlist a {
+	font-size: 20px;
+	text-decoration: none;
+	padding: 10px;
+	background-color: brown;
+	color: white;
+
   }
 
   @media(max-width:550px){
