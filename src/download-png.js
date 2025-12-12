@@ -1,52 +1,58 @@
-import jQuery from "jquery";
-const $ = jQuery.noConflict();
+/**
+ * PNG download functionality for SVG equations
+ */
 
-$(document).ready(function () {
-  let downloadBtn = document.getElementById("download-img");
+document.addEventListener('DOMContentLoaded', function () {
+  const downloadBtn = document.getElementById('download-img');
+  downloadBtn.addEventListener('click', downloadPNG);
 
-  downloadBtn.addEventListener("click", downloadPNG);
-  // Initiate download of blob
-  function download(
-    filename, // string
-    blob // Blob
-  ) {
+  /**
+   * Initiate download of blob
+   * @param {string} filename - Name of the file to download
+   * @param {Blob} blob - Blob data to download
+   */
+  function download(filename, blob) {
     if (window.navigator.msSaveOrOpenBlob) {
       window.navigator.msSaveBlob(blob, filename);
     } else {
-    // Create and link and click on it to automatically download image
-      const elem = window.document.createElement("a");
+      const elem = window.document.createElement('a');
       elem.href = window.URL.createObjectURL(blob);
       elem.download = filename;
       elem.click();
+      // Clean up the URL object
+      window.URL.revokeObjectURL(elem.href);
     }
   }
-  
 
+  /**
+   * Download the rendered equation as PNG
+   */
   function downloadPNG() {
-    // Get the svg from the page
-    var svg = document.querySelector("svg");
+    const svg = document.querySelector('svg');
+    if (!svg) {
+      console.error('No SVG found to download');
+      return;
+    }
 
-    // Get the current number
-    var number = document.getElementById("input").value;
+    const number = document.getElementById('input').value;
 
-    // Increase the SVG's width and height to produce a bigger image
-    let w = parseInt(svg.getAttribute("width"))*3;
-    let h = parseInt(svg.getAttribute("height"))*3;
+    // Increase SVG dimensions for better quality
+    const w = parseInt(svg.getAttribute('width')) * 3;
+    const h = parseInt(svg.getAttribute('height')) * 3;
 
-    // Clone the svg before changing width and height so that it does not affect the svg on the page
-    svg = svg.cloneNode(true);
-    svg.setAttribute("width", `${w}ex`)
-    svg.setAttribute("height", `${h}ex`)
+    // Clone the SVG to avoid modifying the displayed version
+    const clonedSvg = svg.cloneNode(true);
+    clonedSvg.setAttribute('width', `${w}ex`);
+    clonedSvg.setAttribute('height', `${h}ex`);
 
     // Convert SVG to string data
-    var data = new XMLSerializer().serializeToString(svg);
+    const data = new XMLSerializer().serializeToString(clonedSvg);
 
-    var canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
 
+    // Render SVG to canvas and convert to PNG
     canvg(canvas, data, {
       renderCallback: function () {
-
-        // Convert SVG data to PNG image
         canvas.toBlob(function (blob) {
           download(`complicated-equation-that-equals-${number}.png`, blob);
         });
@@ -54,3 +60,4 @@ $(document).ready(function () {
     });
   }
 });
+

@@ -1,29 +1,24 @@
 {
   "homepage": "http://enjeck.github.io/num2math",
   "name": "num2math",
-  "version": "1.0.0",
-  "description": "A complication math expression generator. What is a really complicated math equation that equals xxx? Input a solution and get a math expression. Equations can be copied.",
-  "main": "index.html",
+  "version": "2.0.0",
+  "description": "A complicated math expression generator. What is a really complicated math equation that equals xxx? Input a solution and get a math expression. Equations can be copied.",
+  "type": "module",
   "scripts": {
     "start": "parcel index.html --open",
     "build": "parcel build index.html --public-url ./",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "dependencies": {
-    "jquery": "3.6.0",
-    "parcel-bundler": "^1.6.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "7.2.0",
-    "gh-pages": "^3.2.3"
-  },
-  "resolutions": {
-    "@babel/preset-env": "7.13.8"
+    "parcel": "^2.12.0",
+    "gh-pages": "^6.1.1"
   },
   "keywords": [
     "math",
     "latex",
-    "math equations"
+    "math equations",
+    "equation generator"
   ]
 }
