@@ -203,8 +203,15 @@ label[for="input"] {
 	margin: 0;
 }
 
-#download-img {
+.action-buttons {
 	margin-top: 16px;
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+#download-img,
+#share-btn {
 	padding: 12px 24px;
 	font-size: 14px;
 	font-weight: 500;
@@ -213,10 +220,19 @@ label[for="input"] {
 	color: #000;
 	cursor: pointer;
 	transition: all 0.15s ease;
+	font-family: inherit;
+}
+
+#download-img {
 	display: none;
 }
 
-#download-img:hover {
+#share-btn {
+	display: none;
+}
+
+#download-img:hover,
+#share-btn:hover {
 	background-color: #000;
 	color: #fff;
 }
