@@ -3,17 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- SEO Meta Tags -->
+    <title>num2math - Complicated Math Equation Generator | Create Complex Equations</title>
     <meta
       name="description"
-      content="complicated math equation generator. What is a very complicated math
-      expression/problem that equals xxx? Enter a solution and get a hard equation that gives that answer."
+      content="Generate complicated math equations from any number (0-1000). Free tool creates complex mathematical expressions using calculus, limits, series, and advanced functions. Perfect for teachers, students, and math enthusiasts."
     />
     <meta
       name="keywords"
-      content="math, complicated math, math equation, complicated equation generator, complicated math equation"
+      content="math, complicated math, math equation, complicated equation generator, complicated math equation, complex math expressions, equation generator"
     />
-    <title>num2math - Complicated math equation generator</title>
+    <link rel="canonical" href="https://enjeck.github.io/num2math/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://enjeck.github.io/num2math/" />
+    <meta property="og:title" content="num2math - Complicated Math Equation Generator" />
+    <meta property="og:description" content="Generate complicated math equations from any number. Free tool creates complex mathematical expressions using calculus, limits, and advanced functions." />
+    <meta property="og:image" content="https://enjeck.github.io/num2math/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://enjeck.github.io/num2math/" />
+    <meta property="twitter:title" content="num2math - Complicated Math Equation Generator" />
+    <meta property="twitter:description" content="Generate complicated math equations from any number. Free tool for creating complex mathematical expressions." />
+    <meta property="twitter:image" content="https://enjeck.github.io/num2math/og-image.png" />
+    
     <link href="src/styles.css" rel="stylesheet" type="text/css" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -51,9 +68,13 @@
   </head>
 
   <body>
-    <div class="menu">
-      <a href="https://github.com/enjeck/num2math"> GitHub</a>
-    </div>
+
+    
+    <nav class="menu" aria-label="Main navigation">
+      <a href="https://github.com/enjeck/num2math" aria-label="View source code on GitHub">GitHub</a>
+    </nav>
+    
+    <main id="main-content" role="main">
     <div id="frame">
       <div id="mobile-notice">
         <span class="close"> x </span>
@@ -66,42 +87,47 @@
           scroll to see them)
         </p>
       </div>
-      <div class="intro">
+      <header class="intro">
         <h1>num2math</h1>
-        <h3>
-          A math expression generator. </br>What is a complicated
+        <h2>
+          A math expression generator. <br>What is a complicated
           math equation that equals x? Let's find out!
-        </h3>
-      </div>
+        </h2>
+      </header>
 
-      <form id="form">
-        <label for="input">
-          Enter an integer between 0 and 1000 inclusive
-        </label>
-        <br />
-        <input
-          id="input"
-          type="number"
-          min="0"
-          max="1000"
-          name="input"
-          required
-        />
-        <br />
-        <div class="lr">
-        <div class="left">
-          <input type="checkbox" id="display" checked />
-          <label for="display">Display style</label>
+      <form id="form" aria-label="Equation generator form">
+        <fieldset>
+          <legend class="visually-hidden">Number Input</legend>
+          <label for="input">
+            Enter an integer between 0 and 1000 inclusive
+          </label>
+          <br />
+          <input
+            id="input"
+            type="number"
+            min="0"
+            max="1000"
+            name="input"
+            required
+            aria-required="true"
+            aria-describedby="input-help"
+          />
+          <span id="input-help" class="visually-hidden">Enter a whole number from 0 to 1000</span>
+          <br />
+          <div class="lr">
+          <div class="left">
+            <input type="checkbox" id="display" checked aria-label="Use display style for equation" />
+            <label for="display">Display style</label>
+          </div>
+          <div class="right">
+            <input type="submit" value="Generate" id="render" name="submit" />
+          </div>
         </div>
-        <div class="right">
-          <input type="submit" value="Generate" id="render" name="submit" />
-        </div>
-      </div>
-
-
+        </fieldset>
       </form>
 
-      <div class="options">
+      <fieldset class="options">
+        <legend class="visually-hidden">Equation Type Options</legend>
         <div>
         <input type="checkbox" id="gamma-function" name="gamma-function" value="gamma-function" checked>
         <label for="gamma-function"> Gamma function </label>
@@ -126,12 +152,12 @@
         <input type="checkbox" id="geometric-series" name="geometric-series" value="geometric-series" checked>
         <label for="geometric-series"> Geometric Series </label>
       </div>
-    </div>
+      </fieldset>
 
-      <div id="output"></div>
-      <button id="download-img">Download as PNG</button>
-      <div class="tips">
-        <h4><em> Tips </em></h4>
+      <section id="output" aria-live="polite" aria-atomic="true" role="region" aria-label="Generated equation output"></section>
+      <button id="download-img" aria-label="Download generated equation as PNG image">Download as PNG</button>
+      <aside class="tips" aria-label="Usage tips">
+        <h3><em>Tips</em></h3>
         <ul>
           <li>
             There is an endless number of math expressions for every number.
@@ -142,7 +168,8 @@
             copy the TeX commands or MathML code.
           </li>
         </ul>
-      </div>
+      </aside>
     </div>
+    </main>
   </body>
 </html>
