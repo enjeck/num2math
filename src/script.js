@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const downloadBtn = document.getElementById('download-img');
   const shareBtn = document.getElementById('share-btn');
 
-  // Event listeners
   form.addEventListener('submit', handleFormSubmit);
   displayCheckbox.addEventListener('change', convert);
   closeButton.addEventListener('click', () => {
@@ -23,30 +22,25 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   shareBtn.addEventListener('click', handleShare);
 
-  // Load state from URL if present (wait for MathJax to be ready)
   loadStateFromURL();
 
   function loadStateFromURL() {
     const state = getStateFromURL();
     if (state) {
-      // Set input value
       inputField.value = state.number;
-      
-      // Set checkboxes
+
       document.getElementById('gamma-function').checked = state.config.gammaFunction;
       document.getElementById('eulers-identity').checked = state.config.eulersIdentity;
       document.getElementById('limits-exponential').checked = state.config.limitExponential;
       document.getElementById('limits-polynomial').checked = state.config.limitPolynomial;
       document.getElementById('trig').checked = state.config.trig;
       document.getElementById('geometric-series').checked = state.config.geometricSeries;
-      
-      // Wait for MathJax to be ready before rendering
+
       if (window.MathJax && window.MathJax.startup) {
         MathJax.startup.promise.then(() => {
           convert();
         });
       } else {
-        // MathJax not loaded yet, wait for it
         window.addEventListener('load', () => {
           if (window.MathJax && window.MathJax.startup) {
             MathJax.startup.promise.then(() => {
@@ -66,14 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function convert() {
     const number = inputField.value;
 
-    // Validate input
     const validation = validateInput(number);
     if (!validation.valid) {
       showError(validation.error);
       return;
     }
 
-    // Get configuration from checkboxes
     const config = {
       gammaFunction: document.getElementById('gamma-function').checked,
       eulersIdentity: document.getElementById('eulers-identity').checked,
@@ -83,20 +75,17 @@ document.addEventListener('DOMContentLoaded', function () {
       geometricSeries: document.getElementById('geometric-series').checked,
     };
 
-    // Generate the LaTeX expression
     const input = generateEquation(Number(number), config);
 
-    // Render with MathJax
     renderEquation(input);
-    
-    // Update URL with current state (for sharing)
+
     updateURL(Number(number), config);
   }
 
   function handleShare() {
     const number = inputField.value;
     const validation = validateInput(number);
-    
+
     if (!validation.valid) {
       showError('Please generate an equation first before sharing!');
       return;
@@ -112,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const shareableURL = generateShareableURL(Number(number), config);
-    
+
     // Try to use native share API if available (mobile devices)
     if (navigator.share) {
       navigator.share({
@@ -125,24 +114,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } else {
-      // Fallback to clipboard
       copyToClipboard(shareableURL);
     }
   }
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-      // Show feedback
       const originalText = shareBtn.textContent;
       shareBtn.textContent = '✓ Link copied!';
       shareBtn.style.backgroundColor = '#28a745';
-      
+
       setTimeout(() => {
         shareBtn.textContent = originalText;
         shareBtn.style.backgroundColor = '';
       }, 2000);
     }).catch(() => {
-      // Fallback for older browsers
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
@@ -151,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
-      
+
       const originalText = shareBtn.textContent;
       shareBtn.textContent = '✓ Link copied!';
       setTimeout(() => {
@@ -165,18 +151,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function renderEquation(latexExpression) {
-    // Disable buttons while rendering
     renderButton.disabled = displayCheckbox.disabled = true;
 
-    // Clear previous output
     outputDiv.innerHTML = '';
 
-    // Configure MathJax rendering
     MathJax.texReset();
     const options = MathJax.getMetricsFor(outputDiv);
     options.display = displayCheckbox.checked;
-
-    // Render the LaTeX expression
     MathJax.tex2svgPromise(latexExpression, options)
       .then((node) => {
         outputDiv.appendChild(node);

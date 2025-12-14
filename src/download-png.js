@@ -36,21 +36,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const number = document.getElementById('input').value;
 
-    // Increase SVG dimensions for better quality
     const w = parseInt(svg.getAttribute('width')) * 3;
     const h = parseInt(svg.getAttribute('height')) * 3;
 
-    // Clone the SVG to avoid modifying the displayed version
     const clonedSvg = svg.cloneNode(true);
     clonedSvg.setAttribute('width', `${w}ex`);
     clonedSvg.setAttribute('height', `${h}ex`);
 
-    // Convert SVG to string data
     const data = new XMLSerializer().serializeToString(clonedSvg);
 
     const canvas = document.createElement('canvas');
-
-    // Render SVG to canvas and convert to PNG
     canvg(canvas, data, {
       renderCallback: function () {
         canvas.toBlob(function (blob) {
