@@ -41,7 +41,10 @@ export function isPrime(n) {
  * @returns {number[]} Array of factors
  */
 export function getFactors(n) {
-  return [...Array(n + 1).keys()].filter((i) => n % i === 0);
+  const num = Math.abs(parseInt(n));
+  if (isNaN(num) || num === 0) return [1];
+  const factors = [...Array(num + 1).keys()].filter((i) => i !== 0 && num % i === 0);
+  return factors.length > 0 ? factors : [1];
 }
 
 /**
@@ -51,6 +54,7 @@ export function getFactors(n) {
  */
 export function isFactorial(n) {
   const factorialMap = {
+    1: 1,
     2: 2,
     6: 3,
     24: 4,
@@ -76,5 +80,6 @@ export function randomInt(min, max) {
  * @returns {*} Random item from array
  */
 export function randomChoice(arr) {
+  if (!arr || arr.length === 0) return null;
   return arr[Math.floor(Math.random() * arr.length)];
 }

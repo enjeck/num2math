@@ -160,15 +160,17 @@ export function infiniteGeometricSeries(n, useGammaFunction) {
  * @returns {string} LaTeX string
  */
 export function trigIdentity(n, randOption) {
+  const a = Math.floor(Math.random() * 51) - 10; // Random number from -10 to 40
+  
   if (n > 0) {
     const randomValue = Math.random();
     if (randomValue < 0.25) {
-      return `\\left({${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
+      return `\\left({${randOption(n)} \\over {\\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}}\\right)`;
     }
     if (randomValue < 0.5) {
-      return `\\left({${randOption(n)} \\times (\\cos^2x + \\sin^2x)}\\right)`;
+      return `\\left({${randOption(n)} \\times \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
     }
-    return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+    return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
   }
-  return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+  return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
 }

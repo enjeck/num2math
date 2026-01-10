@@ -25,22 +25,23 @@ import {
  * @returns {string} LaTeX string
  */
 function decompose2(n, randomOption1, randomOption2) {
+  if (isNaN(n) || n === Infinity) n = 1;
   const randNum = randomInt(6, 8);
   const logValue = Math.log(n) / Math.log(randNum);
-  const floorLog = Math.floor(logValue);
-  const ceilLog = Math.ceil(logValue);
+  const floorLog = isFinite(logValue) ? Math.floor(logValue) : 0;
+  const ceilLog = isFinite(logValue) ? Math.ceil(logValue) : 0;
   const exp1 = randNum ** floorLog;
   const exp2 = randNum ** ceilLog;
   const diff1 = Math.abs(n - exp1);
   const diff2 = Math.abs(n - exp2);
   
   if (diff1 < diff2) {
-    const power = floorLog < 2 ? '' : `^{${floorLog}}`;
+    const power = floorLog === 1 ? '' : `^{${floorLog}}`;
     return `{ \\left({${randomOption1(randNum)}}\\right)${power} + {${randomOption2(diff1)}}}`;
   }
   
-  const power = ceilLog < 2 ? '' : `^{${ceilLog}}`;
-  return `{ \\left({${randomOption1(randNum)}}\\right) ${power} - {${randomOption2(diff2)}}}`;
+  const power = ceilLog === 1 ? '' : `^{${ceilLog}}`;
+  return `{ \\left({${randomOption1(randNum)}}\\right)${power} - {${randomOption2(diff2)}}}`;
 }
 
 /**
@@ -93,7 +94,7 @@ function minExp(n, randomOption3, decompose2Fn) {
     }
     newDiff = Math.min(newDiff, oldDiff);
     oldDiff = newDiff;
-    exponent = valObj[newDiff];
+    exponent = valObj[newDiff] || [0, '0'];
   }
 
   if (exponent[0] < n) {
@@ -112,7 +113,10 @@ function minExp(n, randomOption3, decompose2Fn) {
 export function decompose(n, possibleOptions, sameNumber) {
   // Select random generator functions
   function moreRandomOptions(num) {
-    return randomChoice(possibleOptions)(num);
+    if (isNaN(num)) num = 0;
+    if (possibleOptions.length === 0) return sameNumber(num);
+    const chosen = randomChoice(possibleOptions);
+    return chosen ? chosen(num) : sameNumber(num);
   }
 
   let randomOption1 = moreRandomOptions;
@@ -127,17 +131,17 @@ export function decompose(n, possibleOptions, sameNumber) {
     // Select three different options
     const options1 = [...possibleOptions];
     const randIndex1 = randomInt(0, options1.length - 1);
-    randomOption1 = options1[randIndex1];
+    randomOption1 = options1[randIndex1] || moreRandomOptions;
     
     const options2 = [...options1];
     options2.splice(randIndex1, 1);
     const randIndex2 = randomInt(0, options2.length - 1);
-    randomOption2 = options2[randIndex2];
+    randomOption2 = options2[randIndex2] || moreRandomOptions;
     
     const options3 = [...options2];
     options3.splice(randIndex2, 1);
     const randIndex3 = randomInt(0, options3.length - 1);
-    randomOption3 = options3[randIndex3];
+    randomOption3 = options3[randIndex3] || moreRandomOptions;
   }
 
   // Wrapper for decompose2 with bound functions
@@ -151,10 +155,10 @@ export function decompose(n, possibleOptions, sameNumber) {
   const randomValue = Math.random();
 
   // Strategy 1: Factor decomposition - ab = (a - c)(b + c) + c(b - a + c)
-  if (n < MEDIUM_NUMBER_THRESHOLD && (n === 2 || !isPrime(n)) && randomValue < 0.25) {
+  if (parseInt(n) !== 0 && n < MEDIUM_NUMBER_THRESHOLD && (n === 2 || !isPrime(n)) && randomValue < 0.25) {
     const factors = getFactors(parseInt(n));
     const randomIndex = randomInt(0, factors.length - 1);
-    const a = factors[randomIndex];
+    const a = factors[randomIndex] || 1;
     const b = n / a;
     const c = randomInt(1, RANDOM_OFFSET_MAX);
 
@@ -188,9 +192,8 @@ export function decompose(n, possibleOptions, sameNumber) {
       let sum = `${randomOption1(1)}`;
       let oddVal = 1;
       for (let i = 0; i < squareroot - 1; i++) {
-        const randomOption = randomChoice(possibleOptions);
         oddVal += 2;
-        sum += `+ ${randomOption(oddVal)}`;
+        sum += `+ ${moreRandomOptions(oddVal)}`;
       }
       return `{ ${sum} }`;
     }
