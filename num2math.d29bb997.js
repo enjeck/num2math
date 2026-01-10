@@ -774,6 +774,7 @@ document.addEventListener('DOMContentLoaded', function() {
             geometricSeries: document.getElementById('geometric-series').checked
         };
         const input = (0, _equationServiceJs.generateEquation)(Number(number), config);
+        console.log('Generated LaTeX:', input);
         renderEquation(input);
         (0, _urlSharingJs.updateURL)(Number(number), config);
     }
@@ -1056,13 +1057,14 @@ function infiniteGeometricSeries(n, useGammaFunction) {
     return `{\\sum\\limits_{k=0}^\\infty {\\left({${n - 1} \\over {${n}}}\\right)^{k}}}`;
 }
 function trigIdentity(n, randOption) {
+    const a = Math.floor(Math.random() * 51) - 10; // Random number from -10 to 40
     if (n > 0) {
         const randomValue = Math.random();
-        if (randomValue < 0.25) return `\\left({${randOption(n)} \\over {(\\cos^2x + \\sin^2x)}}\\right)`;
-        if (randomValue < 0.5) return `\\left({${randOption(n)} \\times (\\cos^2x + \\sin^2x)}\\right)`;
-        return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+        if (randomValue < 0.25) return `\\left({${randOption(n)} \\over {\\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}}\\right)`;
+        if (randomValue < 0.5) return `\\left({${randOption(n)} \\times \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
+        return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
     }
-    return `\\left({${randOption(n + 1)} - (\\cos^2x + \\sin^2x)}\\right)`;
+    return `\\left({${randOption(n + 1)} - \\lim_{{x\\to ${a}}}(\\cos^2x + \\sin^2x)}\\right)`;
 }
 
 },{"../utils/mathHelpers.js":"b4fw5","../utils/constants.js":"dIVBf","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"b4fw5":[function(require,module,exports,__globalThis) {
@@ -1122,12 +1124,20 @@ function isPrime(n) {
     return true;
 }
 function getFactors(n) {
-    return [
-        ...Array(n + 1).keys()
-    ].filter((i)=>n % i === 0);
+    const num = Math.abs(parseInt(n));
+    if (isNaN(num) || num === 0) return [
+        1
+    ];
+    const factors = [
+        ...Array(num + 1).keys()
+    ].filter((i)=>i !== 0 && num % i === 0);
+    return factors.length > 0 ? factors : [
+        1
+    ];
 }
 function isFactorial(n) {
     const factorialMap = {
+        1: 1,
         2: 2,
         6: 3,
         24: 4,
@@ -1140,6 +1150,7 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function randomChoice(arr) {
+    if (!arr || arr.length === 0) return null;
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -1222,20 +1233,21 @@ var _constantsJs = require("../utils/constants.js");
  * @param {Function} randomOption2 - Second random generator
  * @returns {string} LaTeX string
  */ function decompose2(n, randomOption1, randomOption2) {
+    if (isNaN(n) || n === Infinity) n = 1;
     const randNum = (0, _mathHelpersJs.randomInt)(6, 8);
     const logValue = Math.log(n) / Math.log(randNum);
-    const floorLog = Math.floor(logValue);
-    const ceilLog = Math.ceil(logValue);
+    const floorLog = isFinite(logValue) ? Math.floor(logValue) : 0;
+    const ceilLog = isFinite(logValue) ? Math.ceil(logValue) : 0;
     const exp1 = randNum ** floorLog;
     const exp2 = randNum ** ceilLog;
     const diff1 = Math.abs(n - exp1);
     const diff2 = Math.abs(n - exp2);
     if (diff1 < diff2) {
-        const power = floorLog < 2 ? '' : `^{${floorLog}}`;
+        const power = floorLog === 1 ? '' : `^{${floorLog}}`;
         return `{ \\left({${randomOption1(randNum)}}\\right)${power} + {${randomOption2(diff1)}}}`;
     }
-    const power = ceilLog < 2 ? '' : `^{${ceilLog}}`;
-    return `{ \\left({${randomOption1(randNum)}}\\right) ${power} - {${randomOption2(diff2)}}}`;
+    const power = ceilLog === 1 ? '' : `^{${ceilLog}}`;
+    return `{ \\left({${randomOption1(randNum)}}\\right)${power} - {${randomOption2(diff2)}}}`;
 }
 /**
  * Find minimal exponential representation for large numbers
@@ -1294,7 +1306,10 @@ var _constantsJs = require("../utils/constants.js");
         }
         newDiff = Math.min(newDiff, oldDiff);
         oldDiff = newDiff;
-        exponent = valObj[newDiff];
+        exponent = valObj[newDiff] || [
+            0,
+            '0'
+        ];
     }
     if (exponent[0] < n) return `${exponent[1]} + \\left({${decompose2Fn(newDiff)}}\\right)`;
     return `${exponent[1]} - \\left({${decompose2Fn(newDiff)}}\\right)`;
@@ -1302,7 +1317,10 @@ var _constantsJs = require("../utils/constants.js");
 function decompose(n, possibleOptions, sameNumber) {
     // Select random generator functions
     function moreRandomOptions(num) {
-        return (0, _mathHelpersJs.randomChoice)(possibleOptions)(num);
+        if (isNaN(num)) num = 0;
+        if (possibleOptions.length === 0) return sameNumber(num);
+        const chosen = (0, _mathHelpersJs.randomChoice)(possibleOptions);
+        return chosen ? chosen(num) : sameNumber(num);
     }
     let randomOption1 = moreRandomOptions;
     let randomOption2 = moreRandomOptions;
@@ -1317,19 +1335,19 @@ function decompose(n, possibleOptions, sameNumber) {
             ...possibleOptions
         ];
         const randIndex1 = (0, _mathHelpersJs.randomInt)(0, options1.length - 1);
-        randomOption1 = options1[randIndex1];
+        randomOption1 = options1[randIndex1] || moreRandomOptions;
         const options2 = [
             ...options1
         ];
         options2.splice(randIndex1, 1);
         const randIndex2 = (0, _mathHelpersJs.randomInt)(0, options2.length - 1);
-        randomOption2 = options2[randIndex2];
+        randomOption2 = options2[randIndex2] || moreRandomOptions;
         const options3 = [
             ...options2
         ];
         options3.splice(randIndex2, 1);
         const randIndex3 = (0, _mathHelpersJs.randomInt)(0, options3.length - 1);
-        randomOption3 = options3[randIndex3];
+        randomOption3 = options3[randIndex3] || moreRandomOptions;
     }
     // Wrapper for decompose2 with bound functions
     const decompose2Fn = (num)=>decompose2(num, randomOption1, randomOption2);
@@ -1337,10 +1355,10 @@ function decompose(n, possibleOptions, sameNumber) {
     if (n > (0, _constantsJs.LARGE_NUMBER_THRESHOLD)) return minExp(n, randomOption3, decompose2Fn);
     const randomValue = Math.random();
     // Strategy 1: Factor decomposition - ab = (a - c)(b + c) + c(b - a + c)
-    if (n < (0, _constantsJs.MEDIUM_NUMBER_THRESHOLD) && (n === 2 || !(0, _mathHelpersJs.isPrime)(n)) && randomValue < 0.25) {
+    if (parseInt(n) !== 0 && n < (0, _constantsJs.MEDIUM_NUMBER_THRESHOLD) && (n === 2 || !(0, _mathHelpersJs.isPrime)(n)) && randomValue < 0.25) {
         const factors = (0, _mathHelpersJs.getFactors)(parseInt(n));
         const randomIndex = (0, _mathHelpersJs.randomInt)(0, factors.length - 1);
-        const a = factors[randomIndex];
+        const a = factors[randomIndex] || 1;
         const b = n / a;
         const c = (0, _mathHelpersJs.randomInt)(1, (0, _constantsJs.RANDOM_OFFSET_MAX));
         if (Math.random() < 0.2) return `{{\\left({${randomOption1(a)}}\\right)}{\\left({${randomOption2(b)}}\\right)}}`;
@@ -1364,9 +1382,8 @@ function decompose(n, possibleOptions, sameNumber) {
             let sum = `${randomOption1(1)}`;
             let oddVal = 1;
             for(let i = 0; i < squareroot - 1; i++){
-                const randomOption = (0, _mathHelpersJs.randomChoice)(possibleOptions);
                 oddVal += 2;
-                sum += `+ ${randomOption(oddVal)}`;
+                sum += `+ ${moreRandomOptions(oddVal)}`;
             }
             return `{ ${sum} }`;
         }
