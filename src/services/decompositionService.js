@@ -151,7 +151,7 @@ export function decompose(n, possibleOptions, sameNumber) {
   const randomValue = Math.random();
 
   // Strategy 1: Factor decomposition - ab = (a - c)(b + c) + c(b - a + c)
-  if (n < MEDIUM_NUMBER_THRESHOLD && (n === 2 || !isPrime(n)) && randomValue < 0.25) {
+  if (parseInt(n) !== 0 && n < MEDIUM_NUMBER_THRESHOLD && (n === 2 || !isPrime(n)) && randomValue < 0.25) {
     const factors = getFactors(parseInt(n));
     const randomIndex = randomInt(0, factors.length - 1);
     const a = factors[randomIndex];
