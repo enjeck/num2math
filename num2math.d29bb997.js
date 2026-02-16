@@ -774,7 +774,6 @@ document.addEventListener('DOMContentLoaded', function() {
             geometricSeries: document.getElementById('geometric-series').checked
         };
         const input = (0, _equationServiceJs.generateEquation)(Number(number), config);
-        console.log('Generated LaTeX:', input);
         renderEquation(input);
         (0, _urlSharingJs.updateURL)(Number(number), config);
     }
